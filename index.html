@@ -1,7 +1,31 @@
 <!DOCTYPE html>
 <html>
-    <body>
-        <h1>Hello World</h1>
-        <p>I'm hosted with GitHub Pages.</p>
-    </body>
+<head>
+    <title>Server Data</title>
+</head>
+<body>
+    <h1>Server Data</h1>
+    <ul id="server-list"></ul>
+
+    <script>
+        fetch('http://www.rucoyonline.com/server_list.json')  // Replace with your JSON file URL
+            .then(response => response.json())
+            .then(data => {
+                const servers = data.servers;
+
+                servers.sort((a, b) => a.name.localeCompare(b.name));
+
+                const serverList = document.getElementById('server-list');
+
+                servers.forEach(server => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `Server: ${server.name}, Characters Online: ${server.characters_online}`;
+                    serverList.appendChild(listItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    </script>
+</body>
 </html>
