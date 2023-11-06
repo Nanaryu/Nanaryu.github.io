@@ -1,31 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Server Data</title>
+    <title>Server List</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Server Data</h1>
-    <ul id="server-list"></ul>
-
-    <script>
-        fetch('http://www.rucoyonline.com/server_list.json')  // Replace with your JSON file URL
-            .then(response => response.json())
-            .then(data => {
-                const servers = data.servers;
-
-                servers.sort((a, b) => a.name.localeCompare(b.name));
-
-                const serverList = document.getElementById('server-list');
-
-                servers.forEach(server => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = `Server: ${server.name}, Characters Online: ${server.characters_online}`;
-                    serverList.appendChild(listItem);
-                });
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    </script>
+    <div id="server-list">
+        <!-- The generated tables will be placed here -->
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
