@@ -4,24 +4,27 @@ table
     font-size: large;
     font-weight: bold;
     color:rgb(233, 233, 233);
-    background-color: rgb(28, 28, 29);
+    background-color: rgb(32, 32, 33);
     border-collapse: collapse;
     stroke:rgb(28, 28, 29);
+    border-radius: 10px;
+    padding: 10px; 
 }
-#server-list
+#inputs
 {
+    
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    font-family: 'Metropolis-Medium', sans-serif;
+    font-size: large;
+    font-weight: bold;
 }
-tr td
+#result
 {
-    border: 2px solid;
     text-align: center;
-    padding: 7px;
-    padding-left: 30vh;
-    padding-right: 30vh;
+    color: rgb(233, 233, 233);
     text-shadow: 
     -1px -1px 0 rgb(28, 28, 29),
      1px -1px 0 rgb(28, 28, 29),
@@ -31,8 +34,4 @@ tr td
 body
 {
     background-color: #19191a;
-}
-p 
-{
-    color: rgb(233, 233, 233);
 }
