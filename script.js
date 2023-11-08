@@ -40,7 +40,7 @@ const mobs = [
   ["Minotaur 275", 681, 5750],
   ["Ice Dragon 320", 726, 50000],
   ["Yeti 350", 826, 60000],
-];
+]
 
 
 function auto_min_raw_damage_Calc(stat, weaponatk, base)
@@ -82,28 +82,107 @@ function accuracy_Calc(max_raw_crit_damage, max_raw_damage, min_raw_damage, x)
 {
   return (normal_accuracy_Calc(max_raw_damage, min_raw_damage, x)*0.99) + (crit_accuracy_Calc(max_raw_crit_damage, max_raw_damage, x)*0.01)
 }
+
+function average_damage_Calc(accuracy, max_damage, min_damage, max_crit_damage){
+  return (accuracy)*(.99*((max_damage + min_damage)/2)) + 0.01*((max_crit_damage + max_damage)/2)
+}
     
+function time_to_kill(avgdmg, pos)
+{
+  return mobs[pos][2] / avgdmg
+}
+
+function tickrate_Calc(accuracy, maxtickrate) 
+{
+  return maxtickrate*(1.0 - Math.pow(1.0-accuracy,10.0))
+}
+
+function min_damage_Calc(min_raw_damage, pos)
+{
+  var min_damage = min_raw_damage - mobs[pos][1]
+  if (min_damage < 0){
+    min_damage = 0
+  }
+  return min_damage
+}
+
+function max_damage_Calc(max_raw_damage, pos)
+{
+  return max_raw_damage - mobs[pos][1]
+}
+
+function max_crit_damage_Calc(max_raw_crit_damage, pos)
+{
+  return max_raw_crit_damage - mobs[pos][1]
+}
+
 
 function train()
 {
-  let weaponatk = 5
-  let base = parseFloat(document.getElementById("base").value);
-  let stat = parseFloat(document.getElementById("stat").value);
+  let str0 = "" //You can train effectively on...
+  let str1 = "" //Max Damage...
+  let str2 = "" //Average time to kill...
+  let str3 = "" //Average time to kill...
+  let str4 = "" //You need...
+  let str5 = "" //You deal...
+
+
+  let weaponatk = parseFloat(document.getElementById("weaponatk").value)
+  let base = parseFloat(document.getElementById("base").value)
+  let stat = parseFloat(document.getElementById("stat").value)
   let min_raw_damage = auto_min_raw_damage_Calc(stat, weaponatk, base)
   let max_raw_damage = auto_max_raw_damage_Calc(stat, weaponatk, base)
   let max_raw_crit_damage = max_raw_crit_damage_Calc(max_raw_damage)
-  var accuracy = 0
-  var pos = 0
+  let accuracy = 0
+  let pos = 0
 
-  for (let x = mobs.length - 1; x >= 0; x--) {
+  for (let x = mobs.length - 1; x >= 0 ;x--) {
     if (x === 26 || x === 31) {
-      continue;
+      continue
     }
-    accuracy = accuracy_Calc(max_raw_crit_damage, max_raw_damage, min_raw_damage, x);
+    accuracy = accuracy_Calc(max_raw_crit_damage, max_raw_damage, min_raw_damage, x)
     if (accuracy >= 0.1749) {
-      pos = x;
-      break;
+      pos = x
+      break
     }
   }
-  document.getElementById("result").innerHTML = `MOB: ${mobs[pos][0]}`
+
+  let min_damage = min_damage_Calc(min_raw_damage, pos)
+  let max_damage = max_damage_Calc(max_raw_damage, pos)
+  let max_crit_damage = max_crit_damage_Calc(max_raw_crit_damage, pos)
+  let avgdmg = average_damage_Calc(accuracy, max_damage, min_damage, max_crit_damage)
+  let tickrate = tickrate_Calc(accuracy, 3600)
+  
+
+  var onemob = true;
+  var checknextmob = true;
+  var newpos = pos + 1;
+
+  if (pos == 5 || pos == 20 || pos == 22 || pos == 28 || pos == 30) 
+  {
+    pos--
+    onemob = false
+  }
+  if (newpos > 40) 
+  {
+    checknextmob = false
+  }
+  if (newpos == 26||newpos == 31)
+  {
+    newpos++
+  }
+
+  var kill_time = time_to_kill(avgdmg, pos)
+
+  str0 = `You can train effectively on ${mobs[pos][0]}`
+  str3 = `Average time to kill ${mobs[pos][0]}: ${Math.round(kill_time/60)} min. ${Math.round(kill_time%60)} sec.`
+  if (!onemob)
+  {
+    kill_time = time_to_kill(avgdmg, pos+1)
+    str0 = `You can train effectively on ${mobs[pos][0]} & ${mobs[pos+1][0]}`
+    str3 = `Average time to kill ${mobs[pos+1][0]}: ${Math.round(kill_time/60)} min. ${Math.round(kill_time%60)} sec.`
+  }
+  
+
+  document.getElementById("result").innerHTML = str0 + "<br>" + str3
 }

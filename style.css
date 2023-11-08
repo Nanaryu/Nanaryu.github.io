@@ -5,21 +5,11 @@ table
     font-weight: bold;
     color:rgb(233, 233, 233);
     background-color: rgb(32, 32, 33);
-    border-collapse: collapse;
+    border-collapse: separate;
     stroke:rgb(28, 28, 29);
     border-radius: 10px;
-    padding: 10px; 
-}
-#inputs
-{
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    font-family: 'Metropolis-Medium', sans-serif;
-    font-size: large;
-    font-weight: bold;
+    padding: 10px;
+    border-spacing: 10px;
 }
 #result
 {
@@ -33,5 +23,71 @@ table
 }
 body
 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Metropolis-Medium', sans-serif;
+    font-size: large;
+    font-weight: bold;
     background-color: #19191a;
+}
+.inputs
+{
+    font-family: 'Metropolis-Medium', sans-serif;
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    width: 15.6em;
+    height: 2em;
+    color: rgb(233, 233, 233);
+    text-shadow: 
+    -1px -1px 0 rgb(28, 28, 29),
+     1px -1px 0 rgb(28, 28, 29),
+    -1px  1px 0 rgb(28, 28, 29),
+     1px  1px 0 rgb(28, 28, 29);
+}
+#base
+{
+    background-color: rgb(16, 204, 241);
+    border-color: rgb(16, 204, 241);
+}
+#stat
+{
+    background-color: rgb(87, 220, 50);
+    border-color: rgb(87, 220, 50);
+}
+#weaponatk
+{
+    background-color: rgb(212, 63, 63);
+    border-color: rgb(212, 63, 63);
+    width: 16.1em;
+}
+select
+{
+    padding: 0 0 0 20px;
+    text-align: center;
+    text-align-last: center;
+    -moz-text-align-last: center;
+}
+#calculate
+{
+    font-family: 'Metropolis-Medium', sans-serif;
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    width: 16.1em;
+    height: 2.5em;
+    background-color: rgb(233, 224, 63);
+    border-color: rgb(233, 224, 63);
+    color: rgb(233, 233, 233);
+    text-shadow: 
+    -1px -1px 0 rgb(28, 28, 29),
+     1px -1px 0 rgb(28, 28, 29),
+    -1px  1px 0 rgb(28, 28, 29),
+     1px  1px 0 rgb(28, 28, 29);
 }

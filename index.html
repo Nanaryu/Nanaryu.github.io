@@ -5,17 +5,32 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="inputs">
+  <div>
     <table>
       <tr>
-        <td><input id="base"></td>
+        <td><h2>Rucoy Online Afk Train Calculator</h2></td>
       </tr>
       <tr>
-        <td><input id="stat"></td>
+        <td><input id="base" maxlength="3" class="inputs"></td>
+      </tr>
+      <tr>
+        <td><input id="stat" maxlength="3" class="inputs"></td>
       </tr>
       <tr>
         <td>
-          <button id="calculate" onclick="train()">calculate</button>
+          <select name="weaponatk" id="weaponatk" class="inputs">
+            <option value="4" id="w4">4</option>
+            <option value="5" id="w5">5</option>
+            <option value="7" id="w7">7</option>
+            <option value="9" id="w9">9</option>
+            <option value="11" id="w11">11</option>
+            <option value="13" id="w13">13</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button id="calculate" onclick="train()">Train</button>
         </td>
       </tr>
       <tr>
