@@ -69,14 +69,6 @@ body
 {
     background-color: rgb(212, 63, 63);
     border-color: rgb(212, 63, 63);
-    width: 16.1em;
-}
-select
-{
-    padding: 0 0 0 20px;
-    text-align: center;
-    text-align-last: center;
-    -moz-text-align-last: center;
 }
 #calculate
 {
