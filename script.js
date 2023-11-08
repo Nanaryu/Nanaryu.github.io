@@ -174,15 +174,15 @@ function train()
 
   var kill_time = time_to_kill(avgdmg, pos)
 
-  str0 = `You can train effectively on ${mobs[pos][0]}`
+  str0 = `You can train effectively on ${mobs[pos][0]}.`
   str3 = `Average time to kill ${mobs[pos][0]}: ${Math.round(kill_time/60)} min. ${Math.round(kill_time%60)} sec.`
   if (!onemob)
   {
     kill_time = time_to_kill(avgdmg, pos+1)
-    str0 = `You can train effectively on ${mobs[pos][0]} & ${mobs[pos+1][0]}`
+    str0 = `You can train effectively on ${mobs[pos][0]} & ${mobs[pos+1][0]}.`
     str3 = `Average time to kill ${mobs[pos+1][0]}: ${Math.round(kill_time/60)} min. ${Math.round(kill_time%60)} sec.`
   }
   
 
-  document.getElementById("result").innerHTML = str0 + "<br>" + str3
+  document.getElementById("result").innerHTML = str0 + "<br>" + str3 + "<br>" + `Tickrate: ${Math.round(tickrate)}/3600.`
 }
