@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rucoy Online Train Calculator</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -8,7 +10,7 @@
   <div>
     <table>
       <tr>
-        <td><h2 id="header">Rucoy Online Afk Train Calculator</h2></td>
+        <td><h2 id="header">Rucoy Online Train Calculator</h2></td>
       </tr>
       <tr>
         <td><input id="base" maxlength="3" class="inputs" placeholder="Base"></td>
@@ -18,15 +20,17 @@
       </tr>
       <tr>
         <td>
-          <!-- <select name="weaponatk" id="weaponatk" class="inputs">
-            <option value="4" id="w4">4</option>
-            <option value="5" id="w5">5</option>
-            <option value="7" id="w7">7</option>
-            <option value="9" id="w9">9</option>
-            <option value="11" id="w11">11</option>
-            <option value="13" id="w13">13</option>
-          </select> -->
           <input id="weaponatk" maxlength="2" class="inputs" placeholder="Weapon ATK">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input id="ptrain" class="inputs" onclick="ptrain()" placeholder="Ptrain: Off" readonly>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input id="mage" class="inputs" onclick="mage()" placeholder="Mage Class: Off" readonly>
         </td>
       </tr>
       <tr>
@@ -35,7 +39,12 @@
         </td>
       </tr>
       <tr>
-        <td><p id="result">MOB: </p></td>
+        <td><p id="result"></p></td>
+      </tr>
+      <tr>
+        <td>
+          <a id="github-link" href="https://www.github.com/Nanaryu/Nanaryu.github.io" target="_blank">github.com/Nanaryu/Nanaryu.github.io</a>
+        </td>
       </tr>
     </table>
   </div>

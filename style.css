@@ -4,6 +4,17 @@
     justify-content: center;
     align-items: center;
 }
+#github-link
+{
+    color: gray;
+    opacity: 20%;
+    display: block;
+    margin: 0 auto;
+    width: 19em;
+    font-family: 'Metropolis-Medium', sans-serif;
+    font-size: small;
+    text-align: center;
+}
 table
 {
     font-family: 'Metropolis-Medium', sans-serif;
@@ -17,10 +28,22 @@ table
     padding: 10px;
     border-spacing: 10px;
 }
+.info
+{
+    color: rgb(212, 63, 63);
+}
+.numbers
+{
+    color: rgb(87, 220, 50);
+}
+.time
+{
+    color: rgb(16, 204, 241);
+}
 #result
 {
     text-align: center;
-    color: rgb(233, 233, 233);
+    color: rgb(220, 220, 220);
     text-shadow: 
     -1px -1px 0 rgb(28, 28, 29),
      1px -1px 0 rgb(28, 28, 29),
@@ -37,6 +60,7 @@ body
     font-size: large;
     font-weight: bold;
     background-color: #19191a;
+    min-height: 100vh;
 }
 .inputs
 {
@@ -54,6 +78,7 @@ body
      1px -1px 0 rgb(28, 28, 29),
     -1px  1px 0 rgb(28, 28, 29),
      1px  1px 0 rgb(28, 28, 29);
+    outline: none;
 }
 #base
 {
@@ -69,6 +94,20 @@ body
 {
     background-color: rgb(212, 63, 63);
     border-color: rgb(212, 63, 63);
+}
+#ptrain
+{
+    background-color: rgb(100, 100, 100);
+    border-color: rgb(100, 100, 100);
+    user-select: none;
+    cursor: pointer;
+}
+#mage
+{
+    background-color: rgb(100, 100, 100);
+    border-color: rgb(100, 100, 100);
+    user-select: none;
+    cursor: pointer;
 }
 #calculate
 {
