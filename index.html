@@ -3,51 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rucoy Online Train Calculator</title>
+    <title>Rucoy Online Calculator</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div>
-    <table>
-      <tr>
-        <td><h2 id="header">Rucoy Online Train Calculator</h2></td>
-      </tr>
-      <tr>
-        <td><input id="base" maxlength="3" class="inputs" placeholder="Base"></td>
-      </tr>
-      <tr>
-        <td><input id="stat" maxlength="3" class="inputs" placeholder="Stat"></td>
-      </tr>
-      <tr>
-        <td>
-          <input id="weaponatk" maxlength="2" class="inputs" placeholder="Weapon ATK">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <input id="ptrain" class="inputs" onclick="ptrain()" placeholder="Ptrain: Off" readonly>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <input id="mage" class="inputs" onclick="mage()" placeholder="Mage Class: Off" readonly>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <button id="calculate" onclick="train()">Train</button>
-        </td>
-      </tr>
-      <tr>
-        <td><p id="result"></p></td>
-      </tr>
-      <tr>
-        <td>
-          <a id="github-link" href="https://www.github.com/Nanaryu/Nanaryu.github.io" target="_blank">github.com/Nanaryu/Nanaryu.github.io</a>
-        </td>
-      </tr>
-    </table>
-  </div>
+  <div id="main"></div>
   <script src="script.js" type="text/javascript"></script>
 </body>
 </html>

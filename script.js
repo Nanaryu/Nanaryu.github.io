@@ -1,3 +1,130 @@
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////SITE BUILDER//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+var main = document.getElementById("main")
+var menu_construct =
+`
+<table>
+  <tr>
+    <td><h2 id="header">&nbsp;&nbsp;&nbsp;Rucoy Online Calculator&nbsp;&nbsp;</h2></td>
+    <td><h3 id="subheader">Menu</h3></td>
+  </tr>
+  <tr></tr>
+  <tr>
+    <td>
+      <button class="buttons" id="train_ptrain" onclick="load_train()">Train / Ptrain</button>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <button class="buttons" id="grind_rate" onclick="load_grindrate()">Grind Rate</button>
+    </td>
+  </tr>
+  <tr></tr><tr></tr>
+  <tr>
+    <td>
+      <a id="github-link" href="https://www.github.com/Nanaryu/Nanaryu.github.io" target="_blank">github.com/Nanaryu/Nanaryu.github.io</a>
+    </td>
+  </tr>
+</table>
+`
+var train_construct =
+`
+<table>
+  <tr>
+    <td><h2 id="header">&nbsp;&nbsp;&nbsp;Rucoy Online Calculator&nbsp;&nbsp;</h2></td>
+    <td><h3 id="subheader">Train Mobs</h3></td>
+  </tr>
+  <tr>
+    <td><input id="base" maxlength="3" class="inputs" placeholder="Base"></td>
+  </tr>
+  <tr>
+    <td><input id="stat" maxlength="3" class="inputs" placeholder="Stat"></td>
+  </tr>
+  <tr>
+    <td>
+      <input id="weaponatk" maxlength="2" class="inputs" placeholder="Weapon ATK">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input id="ptrain" class="inputs" onclick="ptrain()" placeholder="Ptrain: Off" readonly>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input id="mage" class="inputs" onclick="mage()" placeholder="Mage: Off" readonly>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <button class="buttons" id="calculate" onclick="train()">Train</button>
+    </td>
+  </tr>
+  <tr>
+    <td><p id="result"></p></td>
+  </tr>
+  <tr>
+    <td>
+      <button class="buttons" id="menu" onclick="load_menu()">Menu</button>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a id="github-link" href="https://www.github.com/Nanaryu/Nanaryu.github.io" target="_blank">github.com/Nanaryu/Nanaryu.github.io</a>
+    </td>
+  </tr>
+</table>
+`
+var exp_construct = 
+`
+<table>
+  <tr>
+    <td><h2 id="header">&nbsp;&nbsp;&nbsp;Rucoy Online Calculator&nbsp;&nbsp;</h2></td>
+    <td><h3 id="subheader">Grind Rate</h3></td>
+  </tr>
+  <tr>
+    <td><input id="base1" maxlength="3" class="inputs" placeholder="Initial Level"></td>
+  </tr>
+  <tr>
+    <td><input id="base2" maxlength="3" class="inputs" placeholder="Goal Level"></td>
+  </tr>
+  <tr>
+    <td>
+      <input id="grindrate" class="inputs" placeholder="EXP / HR ">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <button class="buttons" id="calculate" onclick="grind()">Calculate</button>
+    </td>
+  </tr>
+  <tr>
+    <td><p id="result"></p></td>
+  </tr>
+  <tr>
+    <td>
+      <button class="buttons" id="menu" onclick="load_menu()">Menu</button>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a id="github-link" href="https://www.github.com/Nanaryu/Nanaryu.github.io" target="_blank">github.com/Nanaryu/Nanaryu.github.io</a>
+    </td>
+  </tr>
+</table>
+`
+
+main.innerHTML = menu_construct
+
+function load_train() {main.innerHTML = train_construct}
+function load_grindrate() {main.innerHTML = exp_construct}
+function load_menu() {main.innerHTML = menu_construct}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////MOB DATA/////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const mobs = [
   ["Rat 1", 4, 25],
   ["Rat 3", 7, 35],
@@ -42,6 +169,9 @@ const mobs = [
   ["Yeti 350", 826, 60000],
 ]
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////MOB TRAINING////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function auto_min_raw_damage_Calc(stat, weaponatk, base)
 {
@@ -157,11 +287,11 @@ function threshold_Calc(tick)
   return 1.0 - Math.pow(.8251,(1.0/tick))
 }
 
-
 var ptrain_state = false
-var ptrainbox = document.getElementById("ptrain")
 function ptrain()
 {
+  var ptrainbox = document.getElementById("ptrain")
+  var magebox = document.getElementById("mage")
   if (!ptrain_state)
   {
     ptrainbox.style.backgroundColor = "rgb(60, 163, 31)"
@@ -175,26 +305,36 @@ function ptrain()
     ptrainbox.style.borderColor = "rgb(100, 100, 100)"
     ptrainbox.placeholder = "Ptrain: Off"
     ptrain_state = false
+    if (mage_state)
+    {
+      magebox.style.backgroundColor = "rgb(100, 100, 100)"
+      magebox.style.borderColor = "rgb(100, 100, 100)"
+      magebox.placeholder = "Mage: Off"
+      mage_state = false
+    }
   }
 }
 
 var mage_state = false
-var magebox = document.getElementById("mage")
 function mage()
 {
-  if (!mage_state)
+  var magebox = document.getElementById("mage") 
+  if (ptrain_state)
   {
-    magebox.style.backgroundColor = "rgb(60, 163, 31)"
-    magebox.style.borderColor = "rgb(60, 163, 31)"
-    magebox.placeholder = "Mage: On"
-    mage_state = true
-  }
-  else
-  {
-    magebox.style.backgroundColor = "rgb(100, 100, 100)"
-    magebox.style.borderColor = "rgb(100, 100, 100)"
-    magebox.placeholder = "Mage: Off"
-    mage_state = false
+    if (!mage_state)
+    {
+      magebox.style.backgroundColor = "rgb(60, 163, 31)"
+      magebox.style.borderColor = "rgb(60, 163, 31)"
+      magebox.placeholder = "Mage: On"
+      mage_state = true
+    }
+    else
+    {
+      magebox.style.backgroundColor = "rgb(100, 100, 100)"
+      magebox.style.borderColor = "rgb(100, 100, 100)"
+      magebox.placeholder = "Mage: Off"
+      mage_state = false
+    }
   }
 }
 
@@ -453,4 +593,57 @@ function train()
     }
     document.getElementById("result").innerHTML = str0 + "<br>" + str1 + "<br>" + str2 + "<br>" + str3 + "<br>" + str4
   } // =====================================IF PTRAIN BRACKET=======================================================
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////LEVEL GRIND//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//main.innerHTML = exp_construct
+function exp_Calc(base)
+{
+  return Math.pow(base, (base / 1000) + 3)
+}
+
+function parseShorthand(input) {
+  const shorthandMap = {
+    'k': 1000,
+    'kk': 1000000,
+    'kkk': 1000000000,
+  };
+
+  const regex = /^(\d*\.?\d+)([k]+)?$/i
+  const match = input.match(regex)
+
+  if (match) {
+    const value = parseFloat(match[1])
+    const suffix = match[2] ? match[2].toLowerCase() : ''
+
+    if (shorthandMap.hasOwnProperty(suffix)) {
+      return value * shorthandMap[suffix];
+    } else {
+      return value
+    }
+  } else {
+    // Invalid input, return NaN or handle as needed
+    return NaN
+  }
+}
+
+function grind()
+{
+  let str0 = `` // You need....
+  let str1 = `` // This is around....
+  let str2 = `` // or x hours...
+  base1 = parseFloat(document.getElementById("base1").value)
+  base2 = parseFloat(document.getElementById("base2").value)
+  grindRate = parseShorthand(document.getElementById("grindrate").value)
+  if (base1 > base2)
+  {
+    document.getElementById("result").innerHTML = "Goal level must be larger than initial level"
+  }
+  str0 = `You need <span class="numbers">${Math.round(exp_Calc(base2) - exp_Calc(base1))}</span> experience until you reach base level <span class="numbers">${base2}</span>`
+  str1 = `This is around <span class="time">${Math.round(60 * ((exp_Calc(base2) - exp_Calc(base1)) / grindRate))}</span> minutes,`
+  str2 = `or <span class="time">${Math.round((exp_Calc(base2) - exp_Calc(base1)) / grindRate)}</span> hours of grinding at a rate of <span class="numbers">${grindRate}</span> exp/hr!`
+
+  document.getElementById("result").innerHTML = str0 + "<br>" + str1 + "<br>" + str2
 }
