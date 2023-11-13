@@ -115,7 +115,7 @@ var exp_construct =
 </table>
 `
 
-main.innerHTML = menu_construct
+main.innerHTML = menu_construct //
 
 function load_train() {main.innerHTML = train_construct}
 function load_grindrate() {main.innerHTML = exp_construct}
