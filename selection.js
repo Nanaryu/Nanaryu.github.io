@@ -3,6 +3,8 @@ async function selection(data, onChange, onIter, sleepOnIter, onDone){
     for(let i = 0; i < n - 1; ++i){
         min = i;
         for(let j = i + 1; j < n; ++j){
+            c_index = j;
+            onChange()
             if(data[min] > data[j]){
                 min = j;
             }
