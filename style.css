@@ -1,12 +1,19 @@
-#sortSpeed
+#settings
 {
-    width: 100px;
-    transform: scale(1.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(48,48,48);
+    padding: 10px;
+    border-radius: 15px;
+    border: 3px rgba(233,233,233,0.3) solid;
+    box-shadow: 0 0 10px rgba(233,233,233,0.3);
 }
 .text
 {
     font-family: "Metropolis-Medium", sans-serif;
-    font-size: 40px;
+    font-size: 24px;
     font-weight: bold;
     color: rgb(233,233,233);
     user-select: none;
@@ -15,35 +22,73 @@
 {
     text-transform: uppercase;
     font-family: "Metropolis-Medium", sans-serif;
-    font-size: 40px;
+    font-size: 24px;
+    padding: 7px;
     font-weight: bold;
     color: rgb(233,233,233);
-    background: rgb(68,68,68);
-    border: 3px rgba(233,233,233,0.3) solid;
-    box-shadow: 0 0 10px rgba(233,233,233,0.3);
-    border-radius: 15px;
+    background-color: rgb(28,28,28);
+    border: none;
+    border-right: 5px rgba(233,233,233,0.3) solid;
+    border-left: 5px rgba(233,233,233,0.3) solid;
     cursor: pointer;
     margin: 5px;
+    transition: background-color 500ms ease-in-out;
 }
-.button :active
-{
-    background-color: rgb(88,88,88);
+
+#shuffle{
+    margin: 3vh;
 }
-#sortSpeedVal
+
+.button:hover{
+    background-color: rgb(94, 94, 94);
+}
+
+#sortSpeed, #arrayLength
 {
-    background-color: rgb(48,48,48);
-    margin: 20px;
-    width: 100px;
-    height: 100px;
-    line-height: 100px;
+    background-color: rgb(28,28,28);
+    width: 110px;
+    margin: 5px;
+    padding: 7px;
+    outline: none;
     text-align: center;
-    border-radius: 15px;
-    border: 3px rgba(233,233,233,0.3) solid;
-    box-shadow: 0 0 10px rgba(233,233,233,0.3);
+    border: none;
+    border-right: 5px rgba(233,233,233,0.3) solid;
+    border-left: 5px rgba(233,233,233,0.3) solid;
+    transition: background-color 500ms ease-in-out;
 }
+
+#sortSpeed:hover, #arrayLength:hover{
+    background-color: rgb(94, 94, 94);
+}
+
+#draw-mode
+{
+    position: relative;
+    transform: scale(1.5);
+    top: -4px;
+    user-select: none;
+    border: none;
+}
+
+#github-link
+{
+    color: rgb(220, 220, 220);
+    opacity: 40%;
+    display: block;
+    margin: 4px;
+    font-family: 'Metropolis-Medium', sans-serif;
+    font-size: 16px;
+    text-align: center;
+    user-select: none;
+}
+
+#github-link:visited
+{
+    color: rgb(140, 140, 140);
+}
+
 body
 {
-    flex-direction: column;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -51,7 +96,9 @@ body
     height: 100vh;
     background-color: rgb(28,28,28);
 }
+
 canvas
 {
+    margin-right: 50px;
     background-color:rgb(68,68,68);
 }

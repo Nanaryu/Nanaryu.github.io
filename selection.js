@@ -17,7 +17,6 @@ async function selection(data, onChange, onIter, sleepOnIter, onDone){
             c_index = min;
             onChange();
 
-
             await sleep(parseInt(document.getElementById('sortSpeed').value));
         }
 

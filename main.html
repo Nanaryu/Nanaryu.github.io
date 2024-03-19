@@ -7,18 +7,35 @@
         <title>SortAlgorithms visual</title>
     </head>
     <body>
-        <div id="sortSpeedVal" class="text">30</div>
-        <input id="sortSpeed" type="range" value="10" min="0" max="500">
+        <div id="settings">
+            <input id="sortSpeed" value="30" class="text" placeholder="ms delay" oninput="updateSortSpeed()">
+            <input id="arrayLength" value="10" class="text" placeholder="arr length" oninput="updateArrayLength()">
 
-        <button onclick="bubbleSort()" class="button"> start </button>
-        <button onclick="bubble(arr, updateArray, () => {}, 0, () => {updateArray()})" class="button"> start bubble </button>
-        <button onclick="selection(arr, updateArray, () => {}, 0, () => {updateArray()})" class="button"> start selection </button>
-        <button onclick="insertion(arr, updateArray, () => {}, 0, () => {updateArray()})" class="button"> start insertion </button>
-        <button onclick="shuffle(arr);" class="button"> shuffle </button>
+            <div class="button" style="margin-bottom: 1.5vw;">
+                <label for="draw-mode" class="text">Fast-Draw</label>
+                <input id="draw-mode" type="checkbox" checked="false" onchange="updateDrawMode()">
+            </div>
+            
+            <button onclick="bogo(arr, updateArray, () => {}, 0, updateArray)" class="button"> bogo </button>
+            <button onclick="bubble(arr, updateArray, () => {}, 0, updateArray)" class="button"> bubble </button>
+            <button onclick="selection(arr, updateArray, () => {}, 0, updateArray)" class="button"> selection </button>
+            <button onclick="insertion(arr, updateArray, () => {}, 0, updateArray)" class="button"> insertion </button>
+            <button onclick="merge(arr, updateArray, () => {}, 0)" class="button"> merge </button>
+            <button onclick="quicksort(arr, 0, arr.length - 1)" class="button"> qsort </button>
+            <button onclick="shuffle(arr)" class="button" id="shuffle"> shuffle </button>
 
+            <a id="github-link" href="https://github.com/nanaryu/nanaryu.github.io" target="_blank">github.com/Nanaryu</a>
+            <a id="github-link" href="https://github.com/Evgen4X" target="_blank">github.com/Evgen4X</a>
+
+        </div>
+        <!-- <div style="position: absolute; color: red; font-size: 15em; font-weight: 900;">(.)(.)</div> -->
+        
         <script type="text/javascript" src="script.js"></script>
         <script src="bubble.js"></script>
         <script src="selection.js"></script>
         <script src="insertion.js"></script>
+        <script src="merge.js"></script>
+        <script src="bogo.js"></script>
+        <script src="quicksort.js"></script>
     </body>
 </html>

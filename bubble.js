@@ -9,6 +9,7 @@ async function bubble(data, onChange, onIter, sleepOnIter, onDone){
                 data[j] = data[j + 1];
                 onChange(j);
                 data[j + 1] = temp;
+                c_index = j + 1
                 onChange(j + 1);
                 changed = true;
                 await sleep(parseInt(document.getElementById('sortSpeed').value));
