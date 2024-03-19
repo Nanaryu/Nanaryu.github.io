@@ -1,3 +1,3 @@
 # Sorting Algorithms Visualization
 
-By <a href="github.com/Evgen4x">Evgen4x</a> & <a href="github.com/Nanaryu">Nanaryu</a>
+By <a href="https://github.com/Evgen4x">Evgen4x</a> & <a href="https://github.com/Nanaryu">Nanaryu</a>
