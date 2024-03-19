@@ -1,0 +1,57 @@
+#sortSpeed
+{
+    width: 100px;
+    transform: scale(1.5);
+}
+.text
+{
+    font-family: "Metropolis-Medium", sans-serif;
+    font-size: 40px;
+    font-weight: bold;
+    color: rgb(233,233,233);
+    user-select: none;
+}
+.button
+{
+    text-transform: uppercase;
+    font-family: "Metropolis-Medium", sans-serif;
+    font-size: 40px;
+    font-weight: bold;
+    color: rgb(233,233,233);
+    background: rgb(68,68,68);
+    border: 3px rgba(233,233,233,0.3) solid;
+    box-shadow: 0 0 10px rgba(233,233,233,0.3);
+    border-radius: 15px;
+    cursor: pointer;
+    margin: 5px;
+}
+.button :active
+{
+    background-color: rgb(88,88,88);
+}
+#sortSpeedVal
+{
+    background-color: rgb(48,48,48);
+    margin: 20px;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    border-radius: 15px;
+    border: 3px rgba(233,233,233,0.3) solid;
+    box-shadow: 0 0 10px rgba(233,233,233,0.3);
+}
+body
+{
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    height: 100vh;
+    background-color: rgb(28,28,28);
+}
+canvas
+{
+    background-color:rgb(68,68,68);
+}
