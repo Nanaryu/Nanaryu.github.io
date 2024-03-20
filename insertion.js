@@ -1,4 +1,8 @@
 async function insertion(data, onChange, onIter, sleepOnIter){
+    if(isRunning){
+        return;
+    }
+    isRunning = true;
     const n = data.length;
     for(let i = 1; i < n; ++i){
         let j = i - 1;
@@ -16,6 +20,11 @@ async function insertion(data, onChange, onIter, sleepOnIter){
         await sleep(parseInt(document.getElementById('sortSpeed').value) / n);
 
 
-        await sleep(onIter);
+        if(onIter != 0){
+            await sleep(onIter);
+        }
     }
+
+    isRunning = false;
+
 }

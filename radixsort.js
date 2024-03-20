@@ -1,5 +1,9 @@
 async function radixsort (arr) 
 {
+    if(isRunning){
+      return;
+    }
+    isRunning = true;
     var idx1, idx2, idx3, len1, len2, radix, radixKey;
     var radices = {}, buckets = {}, num, curr;
     var currLen, radixStr, currBucket;
@@ -60,4 +64,5 @@ async function radixsort (arr)
       }
       buckets = {};
     }
+    isRunning = false;
 }

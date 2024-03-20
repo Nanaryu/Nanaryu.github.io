@@ -1,10 +1,15 @@
 async function selection(data, onChange, onIter, sleepOnIter, onDone){
+    if(isRunning){
+        return;
+    }
+    isRunning = true;
     const n = data.length;
     for(let i = 0; i < n - 1; ++i){
         min = i;
         for(let j = i + 1; j < n; ++j){
             c_index = j;
             onChange()
+            
             if(data[min] > data[j]){
                 min = j;
             }
@@ -19,13 +24,12 @@ async function selection(data, onChange, onIter, sleepOnIter, onDone){
             c_index = min;
             onChange();
 
-            await sleep(parseInt(document.getElementById('sortSpeed').value));
         }
 
         onIter();
-        await sleep(sleepOnIter);
     }
 
     onDone();
 
+    isRunning = false;
 }

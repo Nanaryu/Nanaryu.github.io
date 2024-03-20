@@ -1,10 +1,16 @@
 async function bogo(data, onChange, onIter, sleepOnIter, onDone){
+    if(isRunning){
+        return;
+    }
+    isRunning = true;
     const n = data.length;
     let sorted = false;
     while(!sorted){
         shuffle(data)
         onChange();
-        await sleep(sleepOnIter);
+        if(sleepOnIter != 0){
+            await sleep(sleepOnIter);
+        }
         
         sorted = true;
         for(let i = 1; i < n; ++i){
@@ -16,4 +22,5 @@ async function bogo(data, onChange, onIter, sleepOnIter, onDone){
     }
 
     onDone();
+    isRunning = false;
 }

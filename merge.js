@@ -1,5 +1,8 @@
 async function merge(data, onChange, onIter, sleepOnIter, start=0, end=null){
-    if(end == null){
+    if(end == null){if(isRunning){
+        return;
+    }
+    isRunning = true;
         end = data.length - 1;
     }
 
@@ -60,4 +63,5 @@ async function merge(data, onChange, onIter, sleepOnIter, start=0, end=null){
         onChange();
         // await sleep(parseInt(document.getElementById('sortSpeed').value));
     }
+    isRunning = false;
 }

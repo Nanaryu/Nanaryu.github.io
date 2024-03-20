@@ -1,4 +1,8 @@
 async function bubble(data, onChange, onIter, sleepOnIter, onDone){
+    if(isRunning){
+        return;
+    }
+    isRunning = true;
     let changed;
     const n = data.length;
     for(let i = 0; i < n - 1; ++i){
@@ -26,4 +30,5 @@ async function bubble(data, onChange, onIter, sleepOnIter, onDone){
     }
 
     onDone();
+    isRunning = false;
 }

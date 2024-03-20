@@ -147,28 +147,10 @@ function isSorted(arr)
     return true
 }
 
-async function bubbleSort() 
-{
-    for (let i = 0; i < arr.length; i++) 
-    {
-        for (let j = 0; j < (arr.length - i - 1); j++) 
-        {
-            if (arr[j] > arr[j + 1]) 
-            {
-                let temp = arr[j]
-                arr[j] = arr[j + 1]
-                arr[j + 1] = temp
-                c_index = j+1
-                await sleep(sortSpeed)
-            }
-        }
-    }
-}
-
 function updateArray(sorted=false)
 {
     let i = 0
-    arr.forEach(val =>
+    arr.forEach(function(val)
     {
         if (fastMode)
         {
@@ -229,3 +211,5 @@ window.onload = function()
     arrLengthHandle.value = ""
     sortSpeedHandle.value = ""
 }
+
+var isRunning = false

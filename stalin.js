@@ -1,4 +1,8 @@
 async function stalin(data, onChange, onDone){
+    if(isRunning){
+        return;
+    }
+    isRunning = true;
     let previous = data[0];
     let index = 1;
     while(index < data.length){
@@ -18,4 +22,5 @@ async function stalin(data, onChange, onDone){
     }
 
     onDone();
+    isRunning = false;
 }
