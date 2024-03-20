@@ -7,8 +7,9 @@ async function selection(data, onChange, onIter, sleepOnIter, onDone){
     for(let i = 0; i < n - 1; ++i){
         min = i;
         for(let j = i + 1; j < n; ++j){
-            c_index = j;
-            onChange()
+            c_index = [i, j];
+            await onChange()
+            await sleep(sortSpeed);
             
             if(data[min] > data[j]){
                 min = j;
@@ -18,12 +19,12 @@ async function selection(data, onChange, onIter, sleepOnIter, onDone){
         if(min != i){
             let temp = data[i];
             data[i] = data[min];
-            c_index = i;
-            onChange();
+            c_index = [i, min];
+            await onChange();
             data[min] = temp;
-            c_index = min;
-            onChange();
-
+            c_index = [i, min]
+            await onChange();
+            await sleep(sortSpeed)
         }
 
         onIter();

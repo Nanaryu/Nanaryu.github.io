@@ -81,10 +81,7 @@ function line(x,y,dx,dy,w,style="white")
     c.closePath()
 }
 
-function sleep(ms) 
-{
-    return new Promise(resolve => setTimeout(resolve, ms))
-}
+const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 function max(arr)
 {
@@ -115,24 +112,30 @@ function randint(min, max)
 
 async function shuffle(array) 
 {
-  let currentIndex = array.length,  randomIndex
-
-  let i = 0
-
-  while (currentIndex > 0) 
-  {
-    randomIndex = Math.floor(Math.random() * currentIndex)
-    currentIndex--
-
-    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]]
-    ++i
-    // if(i % (0.137135 * Math.log10(array.length * 5.29714 + 65.3114)) == 0){
-    if(Math.random() < 100 / array.length){
-        updateArray()
-        await sleep(1)
+    if(isRunning){
+        return;
     }
-  }
-  return array
+    isRunning = true;
+    let currentIndex = array.length,  randomIndex
+
+    let i = 0
+
+    while (currentIndex > 0) 
+    {
+        randomIndex = Math.floor(Math.random() * currentIndex)
+        currentIndex--
+
+        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]]
+        ++i
+        // if(i % (0.137135 * Math.log10(array.length * 5.29714 + 65.3114)) == 0){
+        if(Math.random() < 100 / array.length){
+            updateArray()
+            await sleep(1)
+        }
+    }
+
+    isRunning = false;
+    return array
 }
 
 function isSorted(arr)
@@ -151,6 +154,7 @@ function updateArray(sorted=false)
 {
     let i = 0
     arr.forEach(function(val)
+    // for(let val of arr)
     {
         if (fastMode)
         {
@@ -159,9 +163,12 @@ function updateArray(sorted=false)
             {
                 line(i*bar_width + bar_width/2, canvas.height, i*bar_width + bar_width/2, canvas.height - val*bar_height, bar_width,"rgb(0, 233, 0)")
             }
-            else if (c_index != -1)
+            else if (c_index.length)
             {
-                line(c_index*bar_width + bar_width/2, canvas.height, c_index*bar_width + bar_width/2, canvas.height - val*bar_height, bar_width,"rgb(233, 0, 0)")
+                c_index.forEach(c =>
+                {
+                    line(c*bar_width + bar_width/2, canvas.height, c*bar_width + bar_width/2, canvas.height - arr[c]*bar_height, bar_width,"rgb(233, 0, 0)")
+                })
             }
         }
         else
@@ -171,9 +178,13 @@ function updateArray(sorted=false)
             {   
                 rectF(i*bar_width, canvas.height - val*bar_height, bar_width, val*bar_height, "rgb(0,233,0)")
             }
-            else if (c_index != -1)
+            else if (c_index.length)
             {
-                rectF(c_index*bar_width, canvas.height - val*bar_height, bar_width, val*bar_height, "rgb(233,0,0)")
+                c_index.forEach(c =>
+                {
+                    rectF(c*bar_width, canvas.height - arr[c]*bar_height, bar_width, arr[c]*bar_height, "rgb(233,0,0)")
+                    rect(c*bar_width, canvas.height - arr[c]*bar_height, bar_width, arr[c]*bar_height, "black")
+                })
             }
             rect(i*bar_width, canvas.height - val*bar_height, bar_width, val*bar_height, "black")
         }
@@ -181,7 +192,7 @@ function updateArray(sorted=false)
     })
 }
 
-var c_index = -1
+var c_index = []
 function frame()
 {
     if (isSorted(arr))
@@ -192,7 +203,6 @@ function frame()
     {
         updateArray()
     }
-    c_index = -1
 }
 
 const animate = () => {
