@@ -1,17 +1,17 @@
-async function bogo(data, onChange, onIter, sleepOnIter, onDone, isRunning){
-    if(isRunning){
+async function bogo(data)
+{
+    if(isRunning)
+    {
         return;
     }
 
     isRunning = true;   
 
-    while (!isSorted(data))
+    while (!isSorted(data) && isRunning)
     {
         shuffle(data)
         await sleep(sortSpeed);
     }
 
-    onDone();
     isRunning = false;
-   
 }

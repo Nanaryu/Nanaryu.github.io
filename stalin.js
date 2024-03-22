@@ -1,26 +1,33 @@
-async function stalin(data, onChange, onDone){
-    if(isRunning){
+async function stalin(data)
+{
+    if(isRunning)
+    {
         return;
     }
+    
     isRunning = true;
     let previous = data[0];
     let index = 1;
-    while(index < data.length){
+
+    while(index < data.length && isRunning)
+    {
         c_index = [index];
-        if(data[index] < previous){
+        if(data[index] < previous)
+        {
             data.splice(index, 1)
             bar_width = canvas.width / data.length
             bar_height = canvas.height / max(data)
-            onChange();
-            await sleep(parseInt(document.getElementById('sortSpeed').value));
+            updateArray()
+            await sleep(sortSpeed);
             continue;
         }
         previous = data[index];
-        onChange();
-        await sleep(parseInt(document.getElementById('sortSpeed').value));
+        updateArray();
+        await sleep(sortSpeed);
         ++index;
     }
 
-    onDone();
+    c_index = [];
+    updateArray();
     isRunning = false;
 }

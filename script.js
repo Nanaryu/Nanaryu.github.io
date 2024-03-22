@@ -108,6 +108,11 @@ function max(arr)
     }
 }
 
+function stop()
+{
+    
+}
+
 function randint(min, max) 
 {
     min = Math.ceil(min)
@@ -152,7 +157,6 @@ function updateArray(sorted=false)
 {
     let i = 0
     arr.forEach(function(val)
-    // for(let val of arr)
     {
         if (fastMode)
         {

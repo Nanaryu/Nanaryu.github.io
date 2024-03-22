@@ -1,30 +1,36 @@
-async function insertion(data, onChange, onIter, sleepOnIter){
-    if(isRunning){
+async function insertion(data)
+{
+    if(isRunning)
+    {
+        c_index = []
         return;
     }
+    
     isRunning = true;
     const n = data.length;
-    for(let i = 1; i < n; ++i){
+    
+    for(let i = 1; i < n; ++i)
+    {
         let j = i - 1;
         let temp = data[i]
-        while(temp < data[j]){
+
+        while(temp < data[j])
+        {
+            if(!isRunning)
+            {
+                c_index = [];
+                return;
+            }
+            await sleep(sortSpeed);
             data[j + 1] = data[j];
-            onChange(j + 1);
-            c_index = j
+            updateArray()
+            c_index = [j, j+1]
             --j;
-            await sleep(parseInt(document.getElementById('sortSpeed').value) / n);
         }
 
         data[j + 1] = temp;
-        onChange(j);
-        await sleep(parseInt(document.getElementById('sortSpeed').value) / n);
+        updateArray();
 
-
-        if(onIter != 0){
-            await sleep(onIter);
-        }
     }
-
     isRunning = false;
-
 }

@@ -1,19 +1,29 @@
 #settings
 {
+    width: 10%;
+    height: 50%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: rgb(48,48,48);
-    padding: 10px;
-    border-radius: 15px;
     border: 3px rgba(233,233,233,0.3) solid;
     box-shadow: 0 0 10px rgba(233,233,233,0.3);
 }
+
+#stop{
+    color: red;
+}
+
+#settings .button, #settings input{
+    max-width: 80%;
+    word-break: break-all ;
+}
+
 .text
 {
     font-family: "Metropolis-Medium", sans-serif;
-    font-size: 24px;
+    font-size: 16px;
     font-weight: bold;
     color: rgb(233,233,233);
     user-select: none;
@@ -22,7 +32,7 @@
 {
     text-transform: uppercase;
     font-family: "Metropolis-Medium", sans-serif;
-    font-size: 24px;
+    font-size: 16px;
     padding: 7px;
     font-weight: bold;
     color: rgb(233,233,233);
@@ -31,12 +41,8 @@
     border-right: 5px rgba(233,233,233,0.3) solid;
     border-left: 5px rgba(233,233,233,0.3) solid;
     cursor: pointer;
-    margin: 5px;
+    margin: 3px;
     transition: background-color 500ms ease-in-out;
-}
-
-#shuffle{
-    margin: 3vh;
 }
 
 .button:hover{
@@ -99,6 +105,7 @@ body
 
 canvas
 {
-    margin-right: 50px;
+    width: 70%;
+    height: calc(50% + 6px);
     background-color:rgb(68,68,68);
 }

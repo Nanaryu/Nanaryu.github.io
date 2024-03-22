@@ -11,17 +11,19 @@
             <input id="sortSpeed" class="text" placeholder="ms delay" oninput="updateSortSpeed()">
             <input id="arrayLength" class="text" placeholder="arr length" oninput="updateArrayLength()">
 
-            <div class="button" style="margin-bottom: 1.5vw;">
+            <div class="button">
                 <label for="draw-mode" class="text">Fast-Draw</label>
                 <input id="draw-mode" type="checkbox" checked="false" onchange="updateDrawMode()">
             </div>
+
+            <button onclick="if(isRunning){isRunning = false;}" class="button" id="stop"> BRAKE </button>
             
-            <button onclick="bogo(arr, updateArray, () => {}, 0, updateArray, isRunning)" class="button"> bogo </button>
-            <button onclick="bubble(arr, updateArray, () => {}, 0, updateArray)" class="button"> bubble </button>
+            <button onclick="bogo(arr)" class="button"> bogo </button>
+            <button onclick="bubble(arr)" class="button"> bubble </button>
             <button onclick="selection(arr, updateArray, () => {}, 0, updateArray)" class="button"> selection </button>
-            <button onclick="insertion(arr, updateArray, () => {}, 0, updateArray)" class="button"> insertion </button>
+            <button onclick="insertion(arr)" class="button"> insertion </button>
             <button onclick="merge(arr, updateArray, () => {}, 0)" class="button"> merge </button>
-            <button onclick="quicksort(arr, 0, arr.length - 1)" class="button"> qsort </button>
+            <button onclick="isRunning = true; quicksort(arr, 0, arr.length - 1)" class="button"> qsort </button>
             <button onclick="stalin(arr, updateArray, updateArray)" class="button"> stalin </button>
             <button onclick="radixsort(arr)" class="button">radix</button>
             <button onclick="if(!isRunning){isRunning = true; shuffle(arr); isRunning = false;}" class="button" id="shuffle"> shuffle </button>
