@@ -5,6 +5,8 @@ document.querySelector("body").insertBefore(canvas, document.getElementById("set
 
 const c = canvas.getContext("2d")
 
+var c_index = []
+
 var fastMode = false
 
 const drawModeHandle = document.getElementById("draw-mode")
@@ -81,7 +83,10 @@ function line(x,y,dx,dy,w,style="white")
     c.closePath()
 }
 
-const sleep = ms => new Promise(r => setTimeout(r, ms));
+function sleep(ms) 
+{
+    return new Promise(r => setTimeout(r, ms))
+}    
 
 function max(arr)
 {
@@ -112,13 +117,7 @@ function randint(min, max)
 
 async function shuffle(array) 
 {
-    if(isRunning){
-        return;
-    }
-    isRunning = true;
-    let currentIndex = array.length,  randomIndex
-
-    let i = 0
+    let currentIndex = array.length, randomIndex
 
     while (currentIndex > 0) 
     {
@@ -126,21 +125,20 @@ async function shuffle(array)
         currentIndex--
 
         [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]]
-        ++i
-        // if(i % (0.137135 * Math.log10(array.length * 5.29714 + 65.3114)) == 0){
+        c_index = [currentIndex, randomIndex]
+
         if(Math.random() < 100 / array.length){
             updateArray()
-            await sleep(1)
+            await sleep(0)
         }
     }
 
-    isRunning = false;
     return array
 }
 
 function isSorted(arr)
 {
-    for (let i = 0; i < arr.length; i++)
+    for (let i = 0; i < arr.length - 2; i++)
     {
         if (arr[i] > arr[i+1])
         {
@@ -192,7 +190,7 @@ function updateArray(sorted=false)
     })
 }
 
-var c_index = []
+
 function frame()
 {
     if (isSorted(arr))

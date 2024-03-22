@@ -1,37 +1,25 @@
-async function partition(arr, startIndex, endIndex) {
-  const pivotVal = arr[parseInt((endIndex + startIndex) / 2)]; // the pivot element
-  let index = startIndex;
-  // begin iterate and swap
-  for (let i = index; i < endIndex; i++) {
-    if (arr[i] < pivotVal) {
-      [arr[i], arr[index]] = [arr[index], arr[i]];
-      updateArray()
-      await sleep(parseInt(document.getElementById('sortSpeed').value));
-      index += 1;
-      c_index = index
-    }
-  }
-  
-  // move `pivotVal` to the middle index and return middle index
-  [arr[index], arr[endIndex]] = [arr[endIndex], arr[index]];
-  return index;
-}
+async function partition(arr, low, high) { 
+  let pivot = arr[high]; 
+  let i = low - 1; 
 
-async function quicksort(arr, startIndex, endIndex) {
-  if(isRunning){
-    return;
-  }
-  isRunning = true;
-  // Base case or terminating case
-  if (startIndex >= endIndex) {
-    return;
-  }
+  for (let j = low; j <= high - 1; j++) { 
+      if (arr[j] < pivot) { 
+          i++; 
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+          c_index = [i, j]
+          updateArray();
+          await sleep(sortSpeed);
+      } 
+  }  
+  [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
+  c_index = [i+1, high]
+  return i + 1;
+} 
 
-  // Returns midIndex / pivot index
-  let midIndex = await partition(arr, startIndex, endIndex);
+async function quicksort(arr, low, high) { 
+  if (low >= high) return; 
+  let pi = await partition(arr, low, high); 
 
-  // Recursively apply the same logic to the left and right subarrays
-  await quicksort(arr, startIndex, midIndex - 1);
-  await quicksort(arr, midIndex + 1, endIndex);
-  isRunning = false;
-}
+  await quicksort(arr, low, pi - 1); 
+  await quicksort(arr, pi + 1, high); 
+} 

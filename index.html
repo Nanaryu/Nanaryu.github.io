@@ -16,7 +16,7 @@
                 <input id="draw-mode" type="checkbox" checked="false" onchange="updateDrawMode()">
             </div>
             
-            <button onclick="bogo(arr, updateArray, () => {}, 0, updateArray)" class="button"> bogo </button>
+            <button onclick="bogo(arr, updateArray, () => {}, 0, updateArray, isRunning)" class="button"> bogo </button>
             <button onclick="bubble(arr, updateArray, () => {}, 0, updateArray)" class="button"> bubble </button>
             <button onclick="selection(arr, updateArray, () => {}, 0, updateArray)" class="button"> selection </button>
             <button onclick="insertion(arr, updateArray, () => {}, 0, updateArray)" class="button"> insertion </button>
@@ -24,7 +24,7 @@
             <button onclick="quicksort(arr, 0, arr.length - 1)" class="button"> qsort </button>
             <button onclick="stalin(arr, updateArray, updateArray)" class="button"> stalin </button>
             <button onclick="radixsort(arr)" class="button">radix</button>
-            <button onclick="shuffle(arr)" class="button" id="shuffle"> shuffle </button>
+            <button onclick="if(!isRunning){isRunning = true; shuffle(arr); isRunning = false;}" class="button" id="shuffle"> shuffle </button>
 
             <a id="github-link" href="https://github.com/nanaryu/nanaryu.github.io" target="_blank">github.com/Nanaryu</a>
             <a id="github-link" href="https://github.com/Evgen4X" target="_blank">github.com/Evgen4X</a>
