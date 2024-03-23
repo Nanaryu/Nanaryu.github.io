@@ -1,111 +1,99 @@
-#settings
-{
-    width: 10%;
-    height: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(48,48,48);
-    border: 3px rgba(233,233,233,0.3) solid;
-    box-shadow: 0 0 10px rgba(233,233,233,0.3);
+#settings {
+	width: 10%;
+	height: 80%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: rgb(48, 48, 48);
+	border: 3px rgba(233, 233, 233, 0.3) solid;
+	box-shadow: 0 0 10px rgba(233, 233, 233, 0.3);
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
-#stop{
-    color: red;
+#stop {
+	color: red;
 }
 
-#settings .button, #settings input{
-    max-width: 80%;
-    word-break: break-all ;
+#settings .button,
+#settings input {
+	max-width: 80%;
+	word-break: break-all;
 }
 
-.text
-{
-    font-family: "Metropolis-Medium", sans-serif;
-    font-size: 16px;
-    font-weight: bold;
-    color: rgb(233,233,233);
-    user-select: none;
-}
-.button
-{
-    text-transform: uppercase;
-    font-family: "Metropolis-Medium", sans-serif;
-    font-size: 16px;
-    padding: 7px;
-    font-weight: bold;
-    color: rgb(233,233,233);
-    background-color: rgb(28,28,28);
-    border: none;
-    border-right: 5px rgba(233,233,233,0.3) solid;
-    border-left: 5px rgba(233,233,233,0.3) solid;
-    cursor: pointer;
-    margin: 3px;
-    transition: background-color 500ms ease-in-out;
+.text {
+	font-family: "Metropolis-Medium", sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	color: rgb(233, 233, 233);
+	user-select: none;
 }
 
-.button:hover{
-    background-color: rgb(94, 94, 94);
+.button {
+	text-transform: uppercase;
+	font-family: "Metropolis-Medium", sans-serif;
+	font-size: 16px;
+	padding: 7px;
+	font-weight: bold;
+	color: rgb(233, 233, 233);
+	background-color: rgb(28, 28, 28);
+	border: none;
+	border-right: 5px rgba(233, 233, 233, 0.3) solid;
+	border-left: 5px rgba(233, 233, 233, 0.3) solid;
+	cursor: pointer;
+	margin: 3px;
+	transition: background-color 500ms ease-in-out;
 }
 
-#sortSpeed, #arrayLength
-{
-    background-color: rgb(28,28,28);
-    width: 110px;
-    margin: 5px;
-    padding: 7px;
-    outline: none;
-    text-align: center;
-    border: none;
-    border-right: 5px rgba(233,233,233,0.3) solid;
-    border-left: 5px rgba(233,233,233,0.3) solid;
-    transition: background-color 500ms ease-in-out;
+.button:hover {
+	background-color: rgb(94, 94, 94);
 }
 
-#sortSpeed:hover, #arrayLength:hover{
-    background-color: rgb(94, 94, 94);
+#sortSpeed,
+#arrayLength {
+	background-color: rgb(28, 28, 28);
+	width: 110px;
+	margin: 5px;
+	padding: 7px;
+	outline: none;
+	text-align: center;
+	border: none;
+	border-right: 5px rgba(233, 233, 233, 0.3) solid;
+	border-left: 5px rgba(233, 233, 233, 0.3) solid;
+	transition: background-color 500ms ease-in-out;
 }
 
-#draw-mode
-{
-    position: relative;
-    transform: scale(1.5);
-    top: -4px;
-    user-select: none;
-    border: none;
+#sortSpeed:hover,
+#arrayLength:hover {
+	background-color: rgb(94, 94, 94);
 }
 
-#github-link
-{
-    color: rgb(220, 220, 220);
-    opacity: 40%;
-    display: block;
-    margin: 4px;
-    font-family: 'Metropolis-Medium', sans-serif;
-    font-size: 16px;
-    text-align: center;
-    user-select: none;
+#draw-mode {
+	position: relative;
+	transform: scale(1.5);
+	top: -4px;
+	user-select: none;
+	border: none;
 }
 
-#github-link:visited
-{
-    color: rgb(140, 140, 140);
+#github-link {
+	color: rgb(220, 220, 220);
+	opacity: 40%;
+	display: block;
+	margin: 4px;
+	font-family: "Metropolis-Medium", sans-serif;
+	font-size: 16px;
+	text-align: center;
+	user-select: none;
 }
 
-body
-{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    height: 100vh;
-    background-color: rgb(28,28,28);
+#github-link:visited {
+	color: rgb(140, 140, 140);
 }
 
-canvas
-{
-    width: 70%;
-    height: calc(50% + 6px);
-    background-color:rgb(68,68,68);
+canvas {
+	width: 70%;
+	height: calc(80% + 6px);
+	background-color: rgb(68, 68, 68);
 }

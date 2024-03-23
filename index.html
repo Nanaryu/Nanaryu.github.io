@@ -1,47 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css">
-        <title>SortAlgorithmss visual</title>
-    </head>
-    <body>
-        <div id="settings">
-            <input id="sortSpeed" class="text" placeholder="ms delay" oninput="updateSortSpeed()">
-            <input id="arrayLength" class="text" placeholder="arr length" oninput="updateArrayLength()">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="style.css" />
+		<title>SortAlgorithmss visual</title>
+		<style>
+			body {
+				margin: 0;
+				padding: 0;
+			}
 
-            <div class="button">
-                <label for="draw-mode" class="text">Fast-Draw</label>
-                <input id="draw-mode" type="checkbox" checked="false" onchange="updateDrawMode()">
-            </div>
+			#main {
+				margin: 0;
+				padding: 0;
+				height: 100vh;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="main"></div>
 
-            <button onclick="if(isRunning){isRunning = false;}" class="button" id="stop"> BRAKE </button>
-            
-            <button onclick="bogo(arr)" class="button"> bogo </button>
-            <button onclick="bubble(arr)" class="button"> bubble </button>
-            <button onclick="selection(arr, updateArray, () => {}, 0, updateArray)" class="button"> selection </button>
-            <button onclick="insertion(arr)" class="button"> insertion </button>
-            <button onclick="merge(arr, updateArray, () => {}, 0)" class="button"> merge </button>
-            <button onclick="isRunning = true; quicksort(arr, 0, arr.length - 1)" class="button"> qsort </button>
-            <button onclick="stalin(arr, updateArray, updateArray)" class="button"> stalin </button>
-            <button onclick="radixsort(arr)" class="button">radix</button>
-            <button onclick="if(!isRunning){isRunning = true; shuffle(arr); isRunning = false;}" class="button" id="shuffle"> shuffle </button>
-
-            <a id="github-link" href="https://github.com/nanaryu/nanaryu.github.io" target="_blank">github.com/Nanaryu</a>
-            <a id="github-link" href="https://github.com/Evgen4X" target="_blank">github.com/Evgen4X</a>
-
-        </div>
-        <!-- <div style="position: absolute; color: red; font-size: 15em; font-weight: 900;">(.)(.)</div> -->
-        
-        <script type="text/javascript" src="script.js"></script>
-        <script src="bubble.js"></script>
-        <script src="selection.js"></script>
-        <script src="insertion.js"></script>
-        <script src="merge.js"></script>
-        <script src="bogo.js"></script>
-        <script src="quicksort.js"></script>
-        <script src="stalin.js"></script>
-        <script src="radixsort.js"></script>
-    </body>
+		<script src="script.js"></script>
+		<script>
+			initCanvas(document.getElementById("main"));
+			initSettings(document.getElementById("main"), []);
+		</script>
+		<script src="bubble.js"></script>
+		<script src="selection.js"></script>
+		<script src="insertion.js"></script>
+		<script src="merge.js"></script>
+		<script src="bogo.js"></script>
+		<script src="quicksort.js"></script>
+		<script src="stalin.js"></script>
+		<script src="radixsort.js"></script>
+	</body>
 </html>
