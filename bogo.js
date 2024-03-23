@@ -1,17 +1,17 @@
-async function bogo(data)
-{
-    if(isRunning)
-    {
-        return;
-    }
+async function bogo(data) {
+	if (isRunning) {
+		return;
+	}
 
-    isRunning = true;   
+	isRunning = true;
 
-    while (!isSorted(data) && isRunning)
-    {
-        shuffle(data)
-        await sleep(sortSpeed);
-    }
+	while (!isSorted(data) && isRunning) {
+		shuffle(data);
+		await sleep(sortSpeed);
+	}
 
-    isRunning = false;
+	isRunning = false;
 }
+
+const parent = document.getElementById("sort-animation-bogo");
+parent;
