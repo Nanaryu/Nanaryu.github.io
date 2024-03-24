@@ -1,8 +1,8 @@
-## Sorting Algorithms Animation Library
+# Sorting Algorithms Animation Library
 
 By [Nanaryu](https://github.com/Nanaryu) & [Evgen4X](https://github.com/Evgen4x)
 
-### Available algorithms
+## Available algorithms
 | Name | Key (case-insensitive) |
 | ---- | --- |
 | [Bogo sort](https://en.wikipedia.org/wiki/Bogosort) | `bogo` |
@@ -14,7 +14,7 @@ By [Nanaryu](https://github.com/Nanaryu) & [Evgen4X](https://github.com/Evgen4x)
 | [Selection sort](https://en.wikipedia.org/wiki/Selection_sort) | `selection` |
 | [Stalin sort](https://github.com/gustavo-depaula/stalin-sort) | `stalin` |
 
-### Usage
+## Usage
 
 > [!IMPORTANT]
 > Download [sortanim.js](https://github.com/Nanaryu/Nanaryu.github.io/blob/main/script.js) and include it in your HTML file directory as shown below
@@ -36,7 +36,7 @@ By [Nanaryu](https://github.com/Nanaryu) & [Evgen4X](https://github.com/Evgen4x)
 > [!CAUTION]
 > Use only one `init()` per file. Multiple canvas support will be added in the future
 
-### Example
+## Example
 ```html
 <body>
     <div id="bubble-sort-animation">
