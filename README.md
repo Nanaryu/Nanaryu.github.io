@@ -17,7 +17,7 @@ By [Nanaryu](https://github.com/Nanaryu) & [Evgen4X](https://github.com/Evgen4x)
 ## Usage
 
 > [!IMPORTANT]
-> Download [sortanim.js](https://github.com/Nanaryu/Nanaryu.github.io/blob/main/script.js) and include it in your HTML file directory as shown below
+> Download [sortanim.js](https://github.com/Nanaryu/Nanaryu.github.io/blob/main/sortanim.js) and include it in your HTML file directory as shown below
 
 ```html
 <script src="sortanim.js"></script> <!-- library import -->
