@@ -16,10 +16,11 @@ By [Nanaryu](https://github.com/Nanaryu) & [Evgen4X](https://github.com/Evgen4x)
 
 ### Usage
 
-> Download [script.js](https://github.com/Nanaryu/Nanaryu.github.io/blob/main/script.js) and include it in your HTML file directory as shown below
+> [!IMPORTANT]
+> Download [sortanim.js](https://github.com/Nanaryu/Nanaryu.github.io/blob/main/script.js) and include it in your HTML file directory as shown below
 
 ```html
-<script src="script.js"></script> <!-- library import -->
+<script src="sortanim.js"></script> <!-- library import -->
 
 <script>
     let parent_element_id = "main";
@@ -33,14 +34,14 @@ By [Nanaryu](https://github.com/Nanaryu) & [Evgen4X](https://github.com/Evgen4x)
 ```
 
 > [!CAUTION]
-> Use only one `init()` per file.
+> Use only one `init()` per file. Multiple canvas support will be added in the future
 
 ### Example
 ```html
 <body>
     <div id="bubble-sort-animation">
         
-    <script src="script.js"></script>
+    <script src="sortanim.js"></script>
     <script>
         init("bubble-sort-animation", ["bubble"]);
     </script>
