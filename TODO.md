@@ -1,7 +1,7 @@
 - [x] Make the file a library
 - [x] Hopefully fixed bugs
 - [x] Stop button
-- [x] Create good README & TODO <- FOR REAL
-- [ ] Rename `script.js` to smth better lol.
+- [ ] Create good README & TODO <- FOR REAL
+- [x] Rename `script.js` to smth better lol.
 - [ ] Optional sounds
 - [ ] Multiple canvas support !
