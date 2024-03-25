@@ -17,7 +17,7 @@ By [Nanaryu](https://github.com/Nanaryu) & [Evgen4X](https://github.com/Evgen4x)
 ## Usage
 
 > [!IMPORTANT]
-> Download [sortanim.js](https://github.com/Nanaryu/Nanaryu.github.io/blob/main/sortanim.js) and include it in your HTML file directory as shown below
+> Download [sortanim.js](https://github.com/Nanaryu/Nanaryu.github.io/blob/main/sortanim.js) & [style.css](https://github.com/Nanaryu/Nanaryu.github.io/blob/main/style.css) and include them in your HTML file directory as shown below
 
 ```html
 <script src="sortanim.js"></script> <!-- library import -->
@@ -38,6 +38,9 @@ By [Nanaryu](https://github.com/Nanaryu) & [Evgen4X](https://github.com/Evgen4x)
 
 ## Example
 ```html
+<head>
+    <link rel="stylesheet" href="style.css"> <!-- style for free customization -->
+</head>
 <body>
     <div id="bubble-sort-animation">
         
