@@ -208,146 +208,31 @@ function frame()
 	}
 }
 
-const style = document.createElement("style")
-style.innerHTML =
+var ALT_MOTIVE = false
+
+
+var motive_1_p1 =
+`<input id="sortSpeed" class="text" placeholder="ms delay" oninput="updateSortSpeed()" />
+		<input id="arrayLength" class="text" placeholder="arr length" oninput="updateArrayLength()" />
+
+		<button class="text button" onclick="document.getElementById('draw-mode').checked = !document.getElementById('draw-mode').checked; updateDrawMode();">
+			<span id='fast-mode-span'>LDM OFF</span>
+			<input id="draw-mode" type="checkbox" checked="false" />
+		</button>
 `
-#settings {
-	min-width: 150px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	background-color: rgb(48, 48, 48);
-	border-color: rgba(233, 233, 233, 0.3);
-	border-style: solid;
-	border-width: 0.1875em 0.1875em 0.1875em 0;
-	border-top-right-radius: 10px;
-	border-bottom-right-radius: 10px;
-	overflow-y: auto;
-	overflow-x: hidden;
-}
-.text {
-	border-radius: 5px;
-	font-family: "Metropolis-Medium", sans-serif;
-	font-size: 16px;
-	font-weight: bold;
-	color: rgb(233, 233, 233);
-	user-select: none;
-}
-.button {
-	border-radius: 5px;
-	text-transform: uppercase;
-	font-family: "Metropolis-Medium", sans-serif;
-	font-size: 100%;
-	padding: 7px 0;
-	font-weight: bold;
-	color: rgb(233, 233, 233);
-	background-color: rgb(28, 28, 28);
-	border: none;
-	border-right: 5px rgba(233, 233, 233, 0.3) solid;
-	border-left: 5px rgba(233, 233, 233, 0.3) solid;
-	cursor: pointer;
-	margin: 3px;
-	transition: background-color 500ms ease-in-out;
-	width: 110px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-#stop{
-	color: red;
-}
 
-#draw-mode{
-	display: none;
-}
+var motive_1_p2 = 
+`		
+		
+		<button onclick="isRunning = false;" class="button" id="stop">stop</button>
 
-.button:hover {
-	background-color: rgb(94, 94, 94);
-}
+		<button onclick="if(!isRunning){isRunning = true; shuffle(arr);}" class="button" id="shuffle">shuffle</button>
 
-#sortSpeed,
-#arrayLength {
-	background-color: rgb(28, 28, 28);
-	width: 100px;
-	margin: 3px;
-	padding: 7px 0;
-	outline: none;
-	text-align: center;
-	border: none;
-	border-right: 5px rgba(233, 233, 233, 0.3) solid;
-	border-left: 5px rgba(233, 233, 233, 0.3) solid;
-	transition: background-color 500ms ease-in-out;
-}
-
-#sortSpeed
-{
-	margin-top: 10px;
-}
-
-#sortSpeed:hover,
-#arrayLength:hover {
-	background-color: rgb(94, 94, 94);
-}
-
-#draw-mode {
-	position: relative;
-	transform: scale(1.5);
-	top: -2px;
-	user-select: none;
-	border: none;
-}
-
-#fast-mode-span{
-	color: rgb(233, 202, 202);
-}
-
-#github-link {
-	color: rgb(250, 250, 250);
-	font-weight: bolder;
-	opacity: 40%;
-	display: block;
-	margin: 4px;
-	font-family: "Metropolis-Medium", sans-serif;
-	font-size: 16px;
-	text-align: center;
-	user-select: none;
-	display: flex;
-	justify-content: space;
-	align-items: center;
-	text-decoration: none;
-}
-
-#github-link:visited {
-	color: rgb(180, 180, 180);
-}
-
-.github-img
-{
-	display: inline-block;
-	overflow: visible !important;
-	vertical-align: text-bottom;
-	fill: #e6edf3;
-	background-size: 20px 20px;
-	width: 20px;
-	height: 20px;
-}
-
-#github
-{
-	margin-bottom: 10px;
-}
-
-canvas {
-	background-color: rgb(48, 48, 48);
-	border-left: 0.1875em rgba(233, 233, 233, 0.3) solid;
-	border-bottom: 0.1875em rgba(233, 233, 233, 0.3) solid;
-	border-top: 0.1875em rgba(233, 233, 233, 0.3) solid;
-	border-top-left-radius: 10px;
-	border-bottom-left-radius: 10px;
-}
+		<div id="github">
+			<a id="github-link" href="https://github.com/nanaryu" target="_blank"><svg class="github-img" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>&nbsp;Nanaryu</a>
+			<a id="github-link" href="https://github.com/evgen4x" target="_blank"><svg class="github-img" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>&nbsp;Evgen4X</a>
+		</div>
 `
-document.getElementsByTagName('head')[0].appendChild(style)
 
 //INIT FUNCTIONS
 
@@ -360,13 +245,13 @@ document.getElementsByTagName('head')[0].appendChild(style)
  * - selection
  * - insertion
  * - merge
- * - quicksort
+ * - quick
  * - radix
  * - stalin
  * @param {HTMLElement} parent - parent for the canvas and settings
  * @param {Array} sort_list - list of sorting algorithms to be there e.g.
  */
-function init(parent, sort_list)
+function initSortAnim(parent, sort_list)
 {
 	parent = document.getElementById(parent)
 	canvas = document.createElement("canvas");
@@ -375,11 +260,93 @@ function init(parent, sort_list)
 	canvas.height = 500;
 	parent.appendChild(canvas);
 
-	parent.style["display"] = "flex";
-	parent.style["justify-content"] = "center";
-	parent.style["align-items"] = "center";
-	parent.style["background-color"] = "rgb(28, 28, 28)";
 
+	if (!ALT_MOTIVE)
+	{
+		parent.style["display"] = "flex";
+		parent.style["justify-content"] = "center";
+		parent.style["align-items"] = "center";
+		parent.style["background-color"] = "rgb(28, 28, 28)";
+
+		settings = document.createElement("div");
+		settings.id = "settings";
+		settings.innerHTML = 
+		motive_1_p1 +
+		`
+		${sort_list.length == 0 || sort_list.includes("bogo") ? '<button onclick="bogo(arr)" class="button">bogo</button>' : ""}
+		${sort_list.length == 0 || sort_list.includes("bubble") ? '<button onclick="bubble(arr)" class="button">bubble</button>' : ""}
+		${sort_list.length == 0 || sort_list.includes("selection") ? '<button onclick="selection(arr)" class="button">selection</button>' : ""}
+		${sort_list.length == 0 || sort_list.includes("insertion") ? '<button onclick="insertion(arr)" class="button">insertion</button>' : ""}
+		${sort_list.length == 0 || sort_list.includes("merge") ? '<button onclick="isRunning = true; merge(arr, 0, null, true);" class="button">merge</button>' : ""}
+		${sort_list.length == 0 || sort_list.includes("quicksort") ? '<button onclick="isRunning = true; quicksort(arr, 0, arr.length - 1, true);" class="button">qsort</button>' : ""}
+		${sort_list.length == 0 || sort_list.includes("radix") ? '<button onclick="radixsort(arr)" class="button">radix</button>' : ""}
+		${sort_list.length == 0 || sort_list.includes("stalin") ? '<button onclick="stalin(arr)" class="button">stalin</button>' : ""}
+		`
+		+ motive_1_p2
+
+		//parent.style.padding = "25px"
+		//parent.style.border = "3px rgba(233,233,233,0.7) solid"
+		//parent.style.boxShadow = "0 0 5px rgba(233,233,233,0.7)"
+		
+		canvas.width = settings.offsetWidth * 4
+		canvas.height = settings.offsetHeight - 6 // literally unscalable
+
+		parent.appendChild(settings);
+	}
+	else
+	{
+		parent.style["display"] = "flex";
+		parent.style["flex-direction"] = "column";
+		parent.style["justify-content"] = "center";
+		parent.style["align-items"] = "center";
+		parent.style["background-color"] = "rgb(28, 28, 28)";
+
+		settings = document.createElement("div");
+		settings.id = "settings";
+		settings.innerHTML =
+		`
+		<input id="sortSpeed" class="text" placeholder="ms delay" oninput="updateSortSpeed()" />
+		<input id="arrayLength" class="text" placeholder="arr length" oninput="updateArrayLength()" />
+
+		<button class="text button" onclick="document.getElementById('draw-mode').checked = !document.getElementById('draw-mode').checked; updateDrawMode();">
+			<span id='fast-mode-span'>LDM OFF</span>
+			<input id="draw-mode" type="checkbox" checked="false" />
+		</button>
+
+		<button onclick="isRunning = false;" class="button" id="stop">stop</button>
+
+		<button onclick="if(!isRunning){isRunning = true; shuffle(arr);}" class="button" id="shuffle">shuffle</button>
+
+		<div id="github">
+			<a id="github-link" href="https://github.com/nanaryu" target="_blank"><svg class="github-img" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>&nbsp;Nanaryu</a>
+			<a id="github-link" href="https://github.com/evgen4x" target="_blank"><svg class="github-img" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>&nbsp;Evgen4X</a>
+		</div>
+		`
+
+		settings.style["flex-direction"] = "row"
+		settings.style["border-radius"] = "0px"
+		settings.style["border"] = "0.1875em rgba(233,233,233,0.3) solid"
+		settings.style["border-top"] = "none"
+		settings.style["border-bottom-left-radius"] = "10px"
+		settings.style["border-bottom-right-radius"] = "10px"
+
+		canvas.style["border"] = "0.1875em rgba(233,233,233,0.3) solid"
+		canvas.style["border-bottom"] = "none"
+		canvas.style["border-radius"] = "0px"
+		canvas.style["border-top-left-radius"] = "10px"
+		canvas.style["border-top-right-radius"] = "10px"
+
+		canvas.width = settings.offsetWidth - 6
+		canvas.height = settings.offsetHeight * 10
+
+		parent.appendChild(settings);
+
+		document.getElementById("sortSpeed").style["margin-top"] = "3px"
+		document.getElementById("sortSpeed").style["margin-left"] = "10px"
+		document.getElementById("github").style["margin-bottom"] = "0px"
+		document.getElementById("github").style["margin-right"] = "10px"
+	}
+	
 	c = canvas.getContext("2d");
 
 	arrLength = 30; // default array length
@@ -401,46 +368,19 @@ function init(parent, sort_list)
 	sort_list.forEach((val, i) => {
 		sort_list[i] = val.toLowerCase();
 	})
+
+	if (!ALT_MOTIVE)
+	{
+		canvas.width = settings.offsetWidth * 4
+		canvas.height = settings.offsetHeight - 6 // literally unscalable
+	}
+	else
+	{
+		canvas.width = settings.offsetWidth - 6
+		canvas.height = settings.offsetHeight * 10
+	}
 	
 	
-	settings = document.createElement("div");
-	settings.id = "settings";
-	settings.innerHTML = `<input id="sortSpeed" class="text" placeholder="ms delay" oninput="updateSortSpeed()" />
-		<input id="arrayLength" class="text" placeholder="arr length" oninput="updateArrayLength()" />
-
-		<button class="text button" onclick="document.getElementById('draw-mode').checked = !document.getElementById('draw-mode').checked; updateDrawMode();">
-			<span id='fast-mode-span'>LDM OFF</span>
-			<input id="draw-mode" type="checkbox" checked="false" />
-		</button>
-
-		${sort_list.length == 0 || sort_list.includes("bogo") ? '<button onclick="bogo(arr)" class="button">bogo</button>' : ""}
-		${sort_list.length == 0 || sort_list.includes("bubble") ? '<button onclick="bubble(arr)" class="button">bubble</button>' : ""}
-		${sort_list.length == 0 || sort_list.includes("selection") ? '<button onclick="selection(arr, updateArray, () => {}, 0, updateArray)" class="button">selection</button>' : ""}
-		${sort_list.length == 0 || sort_list.includes("insertion") ? '<button onclick="insertion(arr)" class="button">insertion</button>' : ""}
-		${sort_list.length == 0 || sort_list.includes("merge") ? '<button onclick="isRunning = true; merge(arr, 0, null, true);" class="button">merge</button>' : ""}
-		${sort_list.length == 0 || sort_list.includes("quicksort") ? '<button onclick="isRunning = true; quicksort(arr, 0, arr.length - 1, true);" class="button">qsort</button>' : ""}
-		${sort_list.length == 0 || sort_list.includes("radix") ? '<button onclick="radixsort(arr)" class="button">radix</button>' : ""}
-		${sort_list.length == 0 || sort_list.includes("stalin") ? '<button onclick="stalin(arr, updateArray, updateArray)" class="button">stalin</button>' : ""}
-		
-		<button onclick="isRunning = false;" class="button" id="stop">stop</button>
-
-		<button onclick="if(!isRunning){isRunning = true; shuffle(arr);}" class="button" id="shuffle">shuffle</button>
-
-		<div id="github">
-			<a id="github-link" href="https://github.com/nanaryu" target="_blank"><svg class="github-img" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>&nbsp;Nanaryu</a>
-			<a id="github-link" href="https://github.com/evgen4x" target="_blank"><svg class="github-img" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>&nbsp;Evgen4X</a>
-		</div>
-	`;
-
-	parent.appendChild(settings);
-
-	//parent.style.padding = "25px"
-	//parent.style.border = "3px rgba(233,233,233,0.7) solid"
-	//parent.style.boxShadow = "0 0 5px rgba(233,233,233,0.7)"
-	
-	canvas.width = settings.offsetWidth * 4
-	canvas.height = settings.offsetHeight - 6 // literally unscalable
-
 	bar_width = canvas.width / arr.length
 	bar_height = canvas.height / max(arr)
 	
