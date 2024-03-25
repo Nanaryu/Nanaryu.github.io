@@ -9,7 +9,7 @@ By [Nanaryu](https://github.com/Nanaryu) & [Evgen4X](https://github.com/Evgen4x)
 | [Bubble sort](https://en.wikipedia.org/wiki/Bubble_sort) | `bubble`|
 | [Insertion sort](https://en.wikipedia.org/wiki/Insertion_sort) | `insertion` |
 | [Merge sort](https://en.wikipedia.org/wiki/Merge_sort) | `merge` |
-| [Quick sort](https://en.wikipedia.org/wiki/Quicksort) | `quicksort` |
+| [Quick sort](https://en.wikipedia.org/wiki/Quicksort) | `quick` |
 | [Radix sort](https://en.wikipedia.org/wiki/Radix_sort) | `radix` |
 | [Selection sort](https://en.wikipedia.org/wiki/Selection_sort) | `selection` |
 | [Stalin sort](https://github.com/gustavo-depaula/stalin-sort) | `stalin` |
@@ -29,12 +29,12 @@ By [Nanaryu](https://github.com/Nanaryu) & [Evgen4X](https://github.com/Evgen4x)
     if key list is empty, the animation menu will have
     all available sorting algorithms
     */
-    init(parent_element_id, key_list);
+    initSortAnim(parent_element_id, key_list);
 </script>
 ```
 
 > [!CAUTION]
-> Use only one `init()` per file. Multiple canvas support will be added in the future
+> Use only one `initSortAnim()` per file. Multiple canvas support will be added in the future
 
 ## Example
 ```html
@@ -43,7 +43,7 @@ By [Nanaryu](https://github.com/Nanaryu) & [Evgen4X](https://github.com/Evgen4x)
         
     <script src="sortanim.js"></script>
     <script>
-        init("bubble-sort-animation", ["bubble"]);
+        initSortAnim("bubble-sort-animation", ["bubble"]);
     </script>
 </body>
 ```
