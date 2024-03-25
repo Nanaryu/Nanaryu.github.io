@@ -414,8 +414,17 @@ function initSortAnim(parent, sort_list)
 
 	window.onresize = () => 
 	{
-		canvas.width = settings.offsetWidth * 4
-		canvas.height = settings.offsetHeight - 6
+		if (!ALT_MOTIVE)
+		{
+			canvas.width = settings.offsetWidth * 4
+			canvas.height = settings.offsetHeight - 6
+		}
+		else
+		{
+			canvas.width = settings.offsetWidth - 6
+			canvas.height = settings.offsetHeight * 10
+		}
+		
 	};
 
 
