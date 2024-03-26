@@ -1,3 +1,11 @@
+var bar_color = "rgb(233, 233, 233)",
+	bar_border_color = "rgb(0, 0, 0)",
+	bar_sorted_color = "rgb(0, 233, 0)",
+	bar_sorted_border_color = "rgb(0, 0, 0)",
+	bar_changed_color = "rgb(233, 0, 0)",
+	bar_changed_border_color = "rgb(0, 0, 0)",
+	canvas_background_color = "rgb(48, 48, 48)";
+
 function updateDrawMode() {
 	fastMode = !fastMode;
 	if (fastMode) {
@@ -106,7 +114,7 @@ async function shuffle(array, changeIsRunning = true) {
 		if (Math.random() < 100 / array.length) {
 			// it should probably work
 			updateArray();
-			await sleep(sortSpeed);
+			await sleep(sortSpeed / 10);
 		}
 	}
 
@@ -128,27 +136,29 @@ function isSorted(arr) {
 // crazy maths
 function updateArray(sorted = false) {
 	let i = 0;
+	rectF(0, 0, canvas.width, canvas.height, canvas_background_color); // background
 	arr.forEach(function (val) {
 		if (fastMode) {
-			line(i * bar_width + bar_width / 2, canvas.height, i * bar_width + bar_width / 2, canvas.height - val * bar_height, bar_width, "rgb(233, 233, 233)");
+			line(i * bar_width + bar_width / 2, canvas.height, i * bar_width + bar_width / 2, canvas.height - val * bar_height, bar_width, bar_color);
 			if (sorted) {
-				line(i * bar_width + bar_width / 2, canvas.height, i * bar_width + bar_width / 2, canvas.height - val * bar_height, bar_width, "rgb(0, 233, 0)");
+				line(i * bar_width + bar_width / 2, canvas.height, i * bar_width + bar_width / 2, canvas.height - val * bar_height, bar_width, bar_sorted_color);
 			} else if (c_index.length) {
 				c_index.forEach((c) => {
-					line(c * bar_width + bar_width / 2, canvas.height, c * bar_width + bar_width / 2, canvas.height - arr[c] * bar_height, bar_width, "rgb(233, 0, 0)");
+					line(c * bar_width + bar_width / 2, canvas.height, c * bar_width + bar_width / 2, canvas.height - arr[c] * bar_height, bar_width, bar_changed_color);
 				});
 			}
 		} else {
-			rectF(i * bar_width, canvas.height - val * bar_height, bar_width, val * bar_height, "rgb(233, 233, 233)");
+			rectF(i * bar_width, canvas.height - val * bar_height, bar_width, val * bar_height, bar_color);
+			rect(i * bar_width, canvas.height - val * bar_height, bar_width, val * bar_height, bar_border_color);
 			if (sorted) {
-				rectF(i * bar_width, canvas.height - val * bar_height, bar_width, val * bar_height, "rgb(0,233,0)");
+				rectF(i * bar_width, canvas.height - val * bar_height, bar_width, val * bar_height, bar_sorted_color);
+				rect(i * bar_width, canvas.height - val * bar_height, bar_width, val * bar_height, bar_sorted_border_color);
 			} else if (c_index.length) {
 				c_index.forEach((c) => {
-					rectF(c * bar_width, canvas.height - arr[c] * bar_height, bar_width, arr[c] * bar_height, "rgb(233,0,0)");
-					rect(c * bar_width, canvas.height - arr[c] * bar_height, bar_width, arr[c] * bar_height, "black");
+					rectF(c * bar_width, canvas.height - arr[c] * bar_height, bar_width, arr[c] * bar_height, bar_changed_color);
+					rect(c * bar_width, canvas.height - arr[c] * bar_height, bar_width, arr[c] * bar_height, bar_changed_border_color);
 				});
 			}
-			rect(i * bar_width, canvas.height - val * bar_height, bar_width, val * bar_height, "black");
 		}
 		i++;
 	});
@@ -169,15 +179,18 @@ async function start() {
 	if (!type) {
 		type = document.getElementById("sortType").innerHTML;
 	}
-	console.log(type);
-	document.getElementById("stop").onclick = () => {
-		isRunning = false;
-		document.getElementById("stop").onclick = start;
-		document.getElementById("stop").innerHTML = "start";
-		document.getElementById("stop").style.color = "rgb(0, 255, 0)";
-	};
-	document.getElementById("stop").innerHTML = "stop";
-	document.getElementById("stop").style.color = "rgb(255, 0, 0)";
+	setTimeout(() => {
+		document.getElementById("stop").onclick = () => {
+			isRunning = false;
+			setTimeout(() => {
+				document.getElementById("stop").onclick = start;
+				document.getElementById("stop").innerHTML = "start";
+				document.getElementById("stop").style.color = "rgb(0, 255, 0)";
+			}, 25);
+		};
+		document.getElementById("stop").innerHTML = "stop";
+		document.getElementById("stop").style.color = "rgb(255, 0, 0)";
+	}, 25);
 	if (type == "bogo") {
 		await bogo(arr);
 	} else if (type == "bubble") {
@@ -638,12 +651,16 @@ async function quicksort(arr, low = 0, high = null, firstCall = true) {
 		return;
 	}
 
-	isRunning = true;
+	if (firstCall) {
+		isRunning = true;
+	}
 
 	let pi = await QSortPartition(arr, low, high);
 
-	await quicksort(arr, low, pi - 1, false);
-	await quicksort(arr, pi + 1, high, false);
+	if (pi) {
+		await quicksort(arr, low, pi - 1, false);
+		await quicksort(arr, pi + 1, high, false);
+	}
 
 	if (firstCall) {
 		isRunning = false;

@@ -111,8 +111,7 @@ body {
 	/* hover animation */
 	transition: background-color 500ms ease-in-out;
 }
-#sortType
-{
+#sortType {
 	width: 125px;
 }
 /* as it is the top one, make space above it so it looks better */
@@ -123,8 +122,7 @@ body {
 /* text inputs color change when hovering */
 #sortSpeed:hover,
 #arrayLength:hover,
-#sortType:hover
-{
+#sortType:hover {
 	background-color: rgb(94, 94, 94);
 }
 
@@ -134,9 +132,6 @@ body {
 }
 
 canvas {
-	/* customizable */
-	background-color: rgb(48, 48, 48);
-
 	border-left: 0.1875em rgba(233, 233, 233, 0.3) solid;
 	border-bottom: 0.1875em rgba(233, 233, 233, 0.3) solid;
 	border-top: 0.1875em rgba(233, 233, 233, 0.3) solid;
