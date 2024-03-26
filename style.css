@@ -92,7 +92,7 @@ body {
 /* text inputs */
 #sortSpeed,
 #arrayLength,
-div#sortType {
+#sortType {
 	/* width is button width; -10px to make them equal */
 	width: 115px;
 	margin: 3px;
@@ -111,7 +111,10 @@ div#sortType {
 	/* hover animation */
 	transition: background-color 500ms ease-in-out;
 }
-
+#sortType
+{
+	width: 125px;
+}
 /* as it is the top one, make space above it so it looks better */
 #sortSpeed {
 	margin-top: 10px;
@@ -119,7 +122,9 @@ div#sortType {
 
 /* text inputs color change when hovering */
 #sortSpeed:hover,
-#arrayLength:hover {
+#arrayLength:hover,
+#sortType:hover
+{
 	background-color: rgb(94, 94, 94);
 }
 

@@ -200,7 +200,7 @@ async function start() {
 	document.getElementById("stop").style.color = "rgb(0, 255, 0)";
 }
 
-var ALT_MOTIVE = false;
+var ALT_MOTIVE = true;
 
 var motive_1_p1 = `<input id="sortSpeed" class="text" placeholder="ms delay" oninput="updateSortSpeed()" />
 		<input id="arrayLength" class="text" placeholder="arr length" oninput="updateArrayLength()" />
@@ -262,7 +262,7 @@ function initSortAnim(parent, sort_list) {
 			${sort_list.length == 0 || sort_list.includes("selection") ? '<option onclick="selection(arr)">selection</option>' : ""}
 			${sort_list.length == 0 || sort_list.includes("insertion") ? '<option onclick="insertion(arr)">insertion</option>' : ""}
 			${sort_list.length == 0 || sort_list.includes("merge") ? '<option onclick="isRunning = true; merge(arr, 0, null, true);">merge</option>' : ""}
-			${sort_list.length == 0 || sort_list.includes("quicksort") ? '<option onclick="isRunning = true; quicksort(arr, 0, arr.length - 1, true);">qsort</option>' : ""}
+			${sort_list.length == 0 || sort_list.includes("quick") ? '<option onclick="isRunning = true; quicksort(arr, 0, arr.length - 1, true);">qsort</option>' : ""}
 			${sort_list.length == 0 || sort_list.includes("radix") ? '<option onclick="radixsort(arr)">radix</option>' : ""}
 			${sort_list.length == 0 || sort_list.includes("stalin") ? '<option onclick="stalin(arr)">stalin</option>' : ""}
 		</select>`;
@@ -297,7 +297,7 @@ function initSortAnim(parent, sort_list) {
 			${sort_list.length == 0 || sort_list.includes("selection") ? '<option onclick="selection(arr)">selection</option>' : ""}
 			${sort_list.length == 0 || sort_list.includes("insertion") ? '<option onclick="insertion(arr)">insertion</option>' : ""}
 			${sort_list.length == 0 || sort_list.includes("merge") ? '<option onclick="isRunning = true; merge(arr, 0, null, true);">merge</option>' : ""}
-			${sort_list.length == 0 || sort_list.includes("quicksort") ? '<option onclick="isRunning = true; quicksort(arr, 0, arr.length - 1, true);">qsort</option>' : ""}
+			${sort_list.length == 0 || sort_list.includes("quick") ? '<option onclick="isRunning = true; quicksort(arr, 0, arr.length - 1, true);">qsort</option>' : ""}
 			${sort_list.length == 0 || sort_list.includes("radix") ? '<option onclick="radixsort(arr)">radix</option>' : ""}
 			${sort_list.length == 0 || sort_list.includes("stalin") ? '<option onclick="stalin(arr)">stalin</option>' : ""}
 		</select>`;
