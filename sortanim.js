@@ -617,7 +617,9 @@ async function insertion(data)
 		{
 			if (!isRunning)
 			{
+				data[j + 1] = temp;
 				c_index = [];
+				updateArray();
 				return;
 			}
 
@@ -652,12 +654,30 @@ async function merge(data, start = 0, end = null, firstCall = true)
 		return;
 	}
 
-	isRunning = true;
+	if(firstCall){
+		isRunning = true;
+	}
 
 	const mid = start + Math.floor((end - start) / 2);
 
+	if(!isRunning){
+		c_index = [];
+		return;
+	}
+	
 	await merge(data, start, mid, false);
+
+	if(!isRunning){
+		c_index = [];
+		return;
+	}
+
 	await merge(data, mid + 1, end, false);
+
+	if(!isRunning){
+		c_index = [];
+		return;
+	}
 
 	let left = [];
 	let right = [];
@@ -677,12 +697,6 @@ async function merge(data, start = 0, end = null, firstCall = true)
 	let i = 0,
 		j = 0,
 		k = start;
-
-	if (!isRunning)
-	{
-		c_index = [];
-		return;
-	}
 
 	while (i < n1 && j < n2)
 	{
