@@ -1,0 +1,80 @@
+body
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+
+    background-color: rgb(28,28,28);
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+#main
+{
+    width: 40%;
+    height: 80%;
+    border: 2px rgb(233,233,233) solid;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(233,233,233,0.3);
+
+    background: linear-gradient(45deg, #ffcc00, #ff6699, #9933cc, #0099cc);
+    background-size: 400% 400%;
+    animation: gradient-animation 10s ease infinite;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.button
+{
+    user-select: none;
+    cursor: pointer;
+
+    transition: all 100ms cubic-bezier(0.25, 0.1, 0.25, 1);
+
+    font-size: 42px;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: bolder;
+    color: #333;
+    margin: 25px;
+    padding: 25px;
+    height: 100px;
+    width: 300px;
+    text-align: center;
+    line-height: 90px;
+
+    background-color: #2d2d2d;
+    box-shadow: 0 0 10px rgba(233,233,233,0.3);
+    background-color: rgba(255, 255, 255, 0.8); 
+    border-radius: 5px;
+}
+
+.button:hover
+{
+    transform: scale(1.05, 1.05);
+}
+
+.button:active
+{
+    transform: scale(1.1, 1.1);
+}
+
+canvas
+{
+    position: absolute;
+    z-index: -100;
+}
