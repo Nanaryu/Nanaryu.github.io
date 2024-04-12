@@ -104,7 +104,7 @@ document.addEventListener('mousemove', (event) => {
     })
 })
 
-for (let i = 0; i < 150; i++) 
+for (let i = 0; i < Math.round((window.innerWidth*window.innerHeight)/13500); i++) 
 {
   const dot = new Dot(random(0, canvas.width), random(0, canvas.height), random(-maxSpeed, maxSpeed), random(-maxSpeed, maxSpeed))
   dots.push(dot)
