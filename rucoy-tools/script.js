@@ -4,96 +4,53 @@
 var main = document.getElementById("main")
 var menu_construct =
 `
+<div class="button" id="train_ptrain" onclick="load_train()">Train / Ptrain</div>
+    
+<div class="button" id="grind_rate" onclick="load_grindrate()">Grind Rate</div>
 
+<div id="github">
+  <a id="github-link" href="https://github.com/nanaryu" target="_blank"><svg class="github-img" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>&nbsp;Nanaryu</a>
+</div>
 `
 var train_construct =
 `
-<table>
-  <tr>
-    <td><h2 id="header">&nbsp;&nbsp;&nbsp;Rucoy Online Calculator&nbsp;&nbsp;</h2></td>
-    <td><h3 id="subheader">Train Mobs</h3></td>
-  </tr>
-  <tr>
-    <td><input id="base" maxlength="3" class="inputs" placeholder="Base"></td>
-  </tr>
-  <tr>
-    <td><input id="stat" maxlength="3" class="inputs" placeholder="Stat"></td>
-  </tr>
-  <tr>
-    <td>
-      <input id="weaponatk" maxlength="2" class="inputs" placeholder="Weapon ATK">
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <input id="ptrain" class="inputs" onclick="ptrain()" placeholder="Ptrain: Off" readonly>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <input id="mage" class="inputs" onclick="mage()" placeholder="Mage: Off" readonly>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <button class="button" id="calculate" onclick="train()">Train</button>
-    </td>
-  </tr>
-  <tr>
-    <td><p id="result"></p></td>
-  </tr>
-  <tr>
-    <td>
-      <button class="button" id="menu" onclick="load_menu()">Menu</button>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <a id="github-link" href="https://github.com/nanaryu" target="_blank"><svg class="github-img" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>&nbsp;Nanaryu</a>
-    </td>
-  </tr>
-</table>
+  <input id="base" maxlength="3" class="inputs" placeholder="Base">
+
+  <input id="stat" maxlength="3" class="inputs" placeholder="Stat">
+
+  <input id="weaponatk" maxlength="2" class="inputs" placeholder="Weapon ATK">
+
+  <div id="ptrain" class="button" onclick="ptrain()">Ptrain: No</div>
+
+  <div id="mage" class="button" onclick="mage()">Mage: No</div>
+
+  <div class="button" id="calculate" onclick="train()">Train</div>
+
+  
+
+  <div class="button" id="menu" onclick="load_menu()">Menu</div>
+
+  <div id="github">
+    <a id="github-link" href="https://github.com/nanaryu" target="_blank"><svg class="github-img" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>&nbsp;Nanaryu</a>
+  </div>
 `
 var exp_construct = 
 `
-<table>
-  <tr>
-    <td><h2 id="header">&nbsp;&nbsp;&nbsp;Rucoy Online Calculator&nbsp;&nbsp;</h2></td>
-    <td><h3 id="subheader">Grind Rate</h3></td>
-  </tr>
-  <tr>
-    <td><input id="base1" maxlength="3" class="inputs" placeholder="Initial Level"></td>
-  </tr>
-  <tr>
-    <td><input id="base2" maxlength="3" class="inputs" placeholder="Goal Level"></td>
-  </tr>
-  <tr>
-    <td>
+   <input id="base1" maxlength="3" class="inputs" placeholder="Initial Level">
+
+    <input id="base2" maxlength="3" class="inputs" placeholder="Goal Level">
+
       <input id="grindrate" class="inputs" placeholder="EXP / HR ">
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <button class="button" id="calculate" onclick="grind()">Calculate</button>
-    </td>
-  </tr>
-  <tr>
-    <td><p id="result"></p></td>
-  </tr>
-  <tr>
-    <td>
-      <button class="button" id="menu" onclick="load_menu()">Menu</button>
-    </td>
-  </tr>
-  <tr>
-    <td>
+
+      <div class="button" id="calculate" onclick="grind()">Calculate</div>
+
+      <div class="button" id="menu" onclick="load_menu()">Menu</div>
+    <div id="github">
       <a id="github-link" href="https://github.com/nanaryu" target="_blank"><svg class="github-img" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>&nbsp;Nanaryu</a>
-    </td>
-  </tr>
-</table>
+    </div>
 `
 
-//main.innerHTML = menu_construct
+main.innerHTML = menu_construct
 
 function load_train() {main.innerHTML = train_construct}
 function load_grindrate() {main.innerHTML = exp_construct}
@@ -272,22 +229,22 @@ function ptrain()
   var magebox = document.getElementById("mage")
   if (!ptrain_state)
   {
-    ptrainbox.style.backgroundColor = "rgb(60, 163, 31)"
-    ptrainbox.style.borderColor = "rgb(60, 163, 31)"
-    ptrainbox.placeholder = "Ptrain: On"
+    ptrainbox.style.backgroundColor = "rgb(56, 245, 103)"
+    ptrainbox.style.boxShadow = "0 0 10px rgba(56, 245, 103, 0.65)"
+    ptrainbox.innerHTML= "Ptrain: Yes"
     ptrain_state = true
   }
   else
   {
-    ptrainbox.style.backgroundColor = "rgb(100, 100, 100)"
-    ptrainbox.style.borderColor = "rgb(100, 100, 100)"
-    ptrainbox.placeholder = "Ptrain: Off"
+    ptrainbox.style.backgroundColor = "rgba(255,255,255,0.8)"
+    ptrainbox.style.boxShadow = "none"
+    ptrainbox.innerHTML = "Ptrain: No"
     ptrain_state = false
     if (mage_state)
     {
-      magebox.style.backgroundColor = "rgb(100, 100, 100)"
-      magebox.style.borderColor = "rgb(100, 100, 100)"
-      magebox.placeholder = "Mage: Off"
+      magebox.style.backgroundColor = "rgba(255,255,255,0.8)"
+      magebox.style.boxShadow = "none"
+      magebox.innerHTML = "Mage: No"
       mage_state = false
     }
   }
@@ -301,16 +258,16 @@ function mage()
   {
     if (!mage_state)
     {
-      magebox.style.backgroundColor = "rgb(60, 163, 31)"
-      magebox.style.borderColor = "rgb(60, 163, 31)"
-      magebox.placeholder = "Mage: On"
+      magebox.style.backgroundColor = "rgb(56, 245, 103)"
+      magebox.style.boxShadow = "0 0 10px rgba(56, 245, 103, 0.65)"
+      magebox.innerHTML = "Mage: Yes"
       mage_state = true
     }
     else
     {
-      magebox.style.backgroundColor = "rgb(100, 100, 100)"
-      magebox.style.borderColor = "rgb(100, 100, 100)"
-      magebox.placeholder = "Mage: Off"
+      magebox.style.backgroundColor = "rgba(255,255,255,0.8)"
+      magebox.style.boxShadow = "none"
+      magebox.innerHTML = "Mage: No"
       mage_state = false
     }
   }
@@ -428,7 +385,15 @@ function train()
       str1 = `Min. Damage (Auto): ${Math.round(min_damage)} Max. Damage (Auto): ${Math.round(max_damage)}`
       str2 = `Average time to kill ${mobs[pos][0]}: ${Math.round(time/60)} min. ${Math.round(time%60)} sec.`
   }
-  
+
+  if(!document.getElementById("result"))
+  {
+    result = document.createElement("span")
+    result.id = "result"
+
+    document.getElementById("main").insertBefore(result, document.getElementById("menu"))
+  }
+
   if (str3 === "")
   {
     document.getElementById("result").innerHTML = str0 + "<br>" + str1 + "<br>" + str2 + "<br>" + str4 + "<br>" + str5
@@ -557,6 +522,14 @@ function train()
         statadd++
     }
 
+    if(!document.getElementById("result"))
+    {
+      result = document.createElement("span")
+      result.id = "result"
+
+      document.getElementById("main").insertBefore(result, document.getElementById("menu"))
+    }
+
     //Building remaining Strings
     if (checknextmob) 
     {
@@ -614,9 +587,18 @@ function grind()
   base1 = parseFloat(document.getElementById("base1").value)
   base2 = parseFloat(document.getElementById("base2").value)
   grindRate = parseShorthand(document.getElementById("grindrate").value)
+
+  if(!document.getElementById("result"))
+  {
+    result = document.createElement("span")
+    result.id = "result"
+
+    document.getElementById("main").insertBefore(result, document.getElementById("menu"))
+  }
+  
   if (base1 > base2)
   {
-    document.getElementById("result").innerHTML = "Goal level must be larger than initial level"
+    document.getElementById("result").innerHTML = "Goal level must be larger than initial level."
   }
   str0 = `You need <span class="numbers">${Math.round(exp_Calc(base2) - exp_Calc(base1))}</span> experience until you reach base level <span class="numbers">${base2}</span>`
   str1 = `This is around <span class="time">${Math.round(60 * ((exp_Calc(base2) - exp_Calc(base1)) / grindRate))}</span> minutes,`
