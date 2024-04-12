@@ -9,6 +9,8 @@
     border-radius: 15px;
     border: 2px #e9e9e9 solid;
     box-shadow: 0 0 10px rgba(233,233,233,0.3);
+
+    overflow: auto;
 }
 
 body
@@ -16,10 +18,10 @@ body
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    font-family: 'Segoe UI';
+    font-family: 'Segoe UI', sans-serif;
     font-size: large;
     font-weight: bold;
+    height: 100vh;
     
     background: linear-gradient(45deg, #0b0e3d, #3d0e0e, #0e3d1d, #2a0e3d);
     background-size: 400% 400%;
@@ -31,7 +33,7 @@ body
 {
     text-align: center;
     font-weight: bold;
-    font-family: 'Segoe UI';
+    font-family: 'Segoe UI', sans-serif;
     outline: none;
     width: 15.6em;
     font-size: large;
@@ -53,7 +55,7 @@ body
 
 .button
 {
-    font-family: "Segoe UI";
+    font-family: 'Segoe UI', sans-serif;
     font-size: large;
     font-weight: bold;
     text-align: center;
@@ -107,7 +109,7 @@ body
 	color: rgb(250, 250, 250);
 	opacity: 40%;
 	display: block;
-	font-family: "Segoe UI";
+	font-family: 'Segoe UI', sans-serif;
 	font-size: 16px;
 	text-align: center;
 	user-select: none;
