@@ -21,7 +21,7 @@ body
     font-size: large;
     font-weight: bold;
     
-    background: linear-gradient(45deg, #ffcc00, #ff6699, #9933cc, #0099cc);
+    background: linear-gradient(45deg, #0b0e3d, #3d0e0e, #0e3d1d, #2a0e3d);
     background-size: 400% 400%;
     animation: gradient-animation 10s ease infinite;
     margin: 0;

@@ -60,7 +60,7 @@ function connectDots()
                 ctx.beginPath()
                 ctx.moveTo(dots[i].x, dots[i].y)
                 ctx.lineTo(dots[j].x, dots[j].y)
-                ctx.strokeStyle = `rgba(255, 255, 255, ${alpha * maxAlpha})`
+                ctx.strokeStyle = `rgba(255,255,255, ${alpha * maxAlpha})`
                 ctx.lineWidth = connectionWidth * alpha
                 ctx.stroke()
             }

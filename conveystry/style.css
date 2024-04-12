@@ -1,0 +1,146 @@
+@font-face {
+    font-family: "lord";
+    src: url("assets/font.ttf") format("truetype");
+}
+
+#all
+{
+    position: relative;
+    background-color: rgb(18,18,18);
+    margin-left: 50px;
+    border-bottom: 5px rgba(233,233,233,0.3) solid;
+    border-top: 5px rgba(233,233,233,0.3) solid;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    width: 350px;
+}
+
+#mat_internal
+{
+    padding-left: 23%;
+}
+
+.mat_count
+{
+    border: 2px rgb(68,68,68) solid;
+    box-shadow: 0 0 5px rgb(68,68,68);
+    padding-left: 5px;
+    background-color: rgb(38,38,38);
+    margin-bottom: 7px;
+    width: 160px;
+    line-height: 200%;
+}
+
+.mat_icon
+{   
+    width: 30px;
+    height: 30px;
+    top: 7px;
+    position: relative;
+}
+
+.ui
+{
+    border-top-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border: 5px rgb(68,68,68) solid;
+    box-shadow: 0 0 10px rgba(233,233,233, 0.2);
+}
+
+.ui_text
+{
+    font-family: 'lord';
+    color: rgb(233,233,233);
+    position: relative;
+}
+
+#ui
+{
+   margin-left: 20px;
+   margin-right: 20px;
+}
+
+#stats
+{
+    position: relative;
+    background-color: rgb(48,48,48); 
+    text-align: center;
+}
+
+#stats *
+{
+    font-size: 22px;
+}
+
+#select
+{
+    position:relative;
+    height: 214px;
+    background-color: rgb(48,48,48);
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+}
+
+#select *
+{
+    margin: 10px;
+    width: 48px;
+    height: 48px;
+    user-select: none;
+    cursor: pointer;
+}
+
+
+#item_info
+{
+    position:relative; 
+    background-color: rgb(48,48,48); 
+    padding: 10px;
+    padding-left: 20px;
+}
+
+#item_requirements
+{
+    font-size: 20px;
+}
+
+#music
+{
+    position:relative;
+    background-color: rgb(48,48,48); 
+    font-family: "lord";
+    font-size: 25px;
+    text-align: center; 
+    line-height: 48px;
+    color: rgb(233,233,233);
+    user-select: none;
+    cursor: pointer;
+}
+
+#binds
+{
+    position:relative; 
+    background-color: rgb(48,48,48); 
+    text-align: center;
+    font-family: 'lord';
+    font-size: 24px;
+    line-height: 65px;
+    color: rgb(233,233,233);
+}
+
+body {
+    background-color: rgb(28,28,28);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    user-select:none;
+}
+
+canvas
+{
+    position: relative;
+    border-radius: 15px;
+    outline: 2px rgba(233,233,233,0.3) solid;
+    user-select: none;
+}
