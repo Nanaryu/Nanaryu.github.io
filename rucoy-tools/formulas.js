@@ -1,65 +1,3 @@
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////SITE BUILDER//////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-var main = document.getElementById("main")
-var menu_construct =
-`
-<div class="button" id="train_ptrain" onclick="load_train()">Train / Ptrain</div>
-    
-<div class="button" id="grind_rate" onclick="load_grindrate()">Grind Rate</div>
-
-<div id="github">
-  <a id="github-link" href="https://github.com/nanaryu" target="_blank"><svg class="github-img" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>&nbsp;Nanaryu</a>
-</div>
-`
-var train_construct =
-`
-  <input id="base" maxlength="3" class="inputs" placeholder="Base">
-
-  <input id="stat" maxlength="3" class="inputs" placeholder="Stat">
-
-  <input id="weaponatk" maxlength="2" class="inputs" placeholder="Weapon ATK">
-
-  <div id="ptrain" class="button" onclick="ptrain()">Ptrain: No</div>
-
-  <div id="mage" class="button" onclick="mage()">Mage: No</div>
-
-  <div class="button" id="calculate" onclick="train()">Train</div>
-
-  
-
-  <div class="button" id="menu" onclick="load_menu()">Menu</div>
-
-  <div id="github">
-    <a id="github-link" href="https://github.com/nanaryu" target="_blank"><svg class="github-img" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>&nbsp;Nanaryu</a>
-  </div>
-`
-var exp_construct = 
-`
-   <input id="base1" maxlength="3" class="inputs" placeholder="Initial Level">
-
-    <input id="base2" maxlength="3" class="inputs" placeholder="Goal Level">
-
-      <input id="grindrate" class="inputs" placeholder="EXP / HR ">
-
-      <div class="button" id="calculate" onclick="grind()">Calculate</div>
-
-      <div class="button" id="menu" onclick="load_menu()">Menu</div>
-    <div id="github">
-      <a id="github-link" href="https://github.com/nanaryu" target="_blank"><svg class="github-img" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path></svg>&nbsp;Nanaryu</a>
-    </div>
-`
-
-main.innerHTML = menu_construct
-
-function load_train() {main.innerHTML = train_construct}
-function load_grindrate() {main.innerHTML = exp_construct}
-function load_menu() {main.innerHTML = menu_construct}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////MOB DATA/////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 const mobs = [
   ["Rat 1", 4, 25],
   ["Rat 3", 7, 35],
@@ -103,10 +41,6 @@ const mobs = [
   ["Ice Dragon 320", 726, 50000],
   ["Yeti 350", 826, 60000],
 ]
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////MOB TRAINING////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function auto_min_raw_damage_Calc(stat, weaponatk, base)
 {
@@ -222,6 +156,38 @@ function threshold_Calc(tick)
   return 1.0 - Math.pow(.8251,(1.0/tick))
 }
 
+function consistency_Calc(max_raw_crit_damage,max_raw_damage, min_raw_damage, mob) 
+{
+        let health = mobs[mob][2];
+        let defense = mobs[mob][1];
+        let totaldefense = health + defense;
+
+        if (totaldefense - max_raw_crit_damage > 0) {
+            return 0;
+        }
+
+        let range = max_raw_damage - min_raw_damage;
+        let normaloneshots = max_raw_damage - totaldefense;
+        if (normaloneshots > 0) {
+            let normalconsistency = (normaloneshots/range);
+            return normalconsistency*0.99 + 0.01;
+        } else {
+            let critrange = max_raw_crit_damage - max_raw_damage;
+            let criticaloneshots = max_raw_crit_damage - totaldefense;
+            return (criticaloneshots/critrange)*0.01;
+        }
+}
+
+function stat0to54_Calc(stat)
+{
+    return Math.pow(stat, (stat/1000) + 2.373);
+}
+
+function stat55to99_Calc(stat)
+{
+    return Math.pow(stat, (stat/1000) + 2.171);
+}
+
 var ptrain_state = false
 function ptrain()
 {
@@ -272,7 +238,6 @@ function mage()
     }
   }
 }
-
 
 function train()
 {
@@ -605,4 +570,65 @@ function grind()
   str2 = `or <span class="time">${Math.round((exp_Calc(base2) - exp_Calc(base1)) / grindRate)}</span> hours of grinding at a rate of <span class="numbers">${grindRate}</span> exp/hr!`
 
   document.getElementById("result").innerHTML = str0 + "<br>" + str1 + "<br>" + str2
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////STAT CALC////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function stat() 
+{
+    let stat1 = parseFloat(document.getElementById("stat1").value)
+    let stat2 = parseFloat(document.getElementById("stat2").value)
+    if (stat1 > stat2) 
+    {
+        return NaN
+    }
+    let ticks1;
+    let ticks2;
+    if (stat1 <= 54) {
+        ticks1 = stat0to54_Calc(stat1);
+    } else {
+        ticks1 = stat55to99_Calc(stat1);
+    } 
+    
+    if (stat2 <= 54) {
+        ticks2 = stat0to54_Calc(stat2);
+    } else {
+        ticks2 = stat55to99_Calc(stat2);
+    }
+
+    let totalTicks = ticks2 - ticks1;
+    
+    let mana_1 = Math.floor(50 * totalTicks / 4);
+    let mana_1_5 = Math.floor(50 * totalTicks / 6);
+    let mana_2 = Math.floor(50 * totalTicks / 8);
+    let mana_2_5 = Math.floor(50 * totalTicks / 10);
+
+    if(!document.getElementById("result"))
+    {
+        result = document.createElement("span")
+        result.id = "result"
+
+        document.getElementById("main").insertBefore(result, document.getElementById("menu"))
+    }
+
+    document.getElementById("result").innerHTML = 
+    `
+    AFK Train: <span class='time'>${Math.floor(totalTicks / 3600)}</span>h<br>
+    PTrain: <span class='time'>${Math.floor(totalTicks / 14400)}</span>h<br>
+    <!-- Cost: ${Math.floor(mana_1 / 100)} small pots, ${Math.floor(mana_1 / 250)} greater pots, ${Math.floor(mana_1 / 500)} super pots, or ${Math.floor(mana_1 / 750)} ulti pots. -->
+    
+    AFK Train <span class='numbers'>1.5x</span>: <span class='time'>${Math.floor(totalTicks / (3600 * 1.5))}</span>h<br>
+    PTrain <span class='numbers'>1.5x</span>: <span class='time'>${Math.floor(totalTicks / (14400 * 1.5))}</span>h<br>
+    <!-- Cost: ${Math.floor(mana_1_5 / 100)} small pots, ${Math.floor(mana_1_5 / 250)} greater pots, ${Math.floor(mana_1_5 / 500)} super pots, or ${Math.floor(mana_1_5 / 750)} ulti pots. -->
+
+    AFK Train <span class='numbers'>2x</span>: <span class='time'>${Math.floor(totalTicks / (3600 * 2))}</span>h<br>
+    PTrain <span class='numbers'>2x</span>: <span class='time'>${Math.floor(totalTicks / (14400 * 2))}</span>h<br>
+    <!-- Cost: ${Math.floor(mana_2 / 100)} small pots, ${Math.floor(mana_2 / 250)} greater pots, ${Math.floor(mana_2 / 500)} super pots, or ${Math.floor(mana_2 / 750)} ulti pots. -->
+
+    AFK Train <span class='numbers'>2.5x</span>: <span class='time'>${Math.floor(totalTicks / (3600 * 2.5))}</span>h<br>
+    PTrain <span class='numbers'>2.5x</span>: <span class='time'>${Math.floor(totalTicks / (14400 * 2.5))}</span>h<br>
+    <!-- Cost: ${Math.floor(mana_2_5 / 100)} small pots, ${Math.floor(mana_2_5 / 250)} greater pots, ${Math.floor(mana_2_5 / 500)} super pots, or ${Math.floor(mana_2_5 / 750)} ulti pots. -->
+    `;
 }
