@@ -1,0 +1,19 @@
+body
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+#display
+{
+    background-color: lightgreen;
+}
+
+#editor
+{
+    background-color: violet;
+}
