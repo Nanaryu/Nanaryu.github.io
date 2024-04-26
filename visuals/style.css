@@ -1,0 +1,13 @@
+body
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    overflow: hidden;
+    height: 100vh;
+}
+#triangles
+{
+    background-color: violet;
+}
