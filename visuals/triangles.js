@@ -44,9 +44,9 @@ function triangle(x, y, dx, dy, ddx, ddy, s="white")
 
 const anchors = []
 
-const anchor_num = 15
-const incVal = 50
-const speed = 0.08
+const anchor_num = 75
+const incVal = 25
+const speed = 0.03
 
 const maxAnchorDistance = canvas.height/2 + incVal
 const minAnchorDistance = canvas.height/2 - incVal
@@ -166,7 +166,7 @@ function draw_joins()
                 let jjy = anchors[i+1].y
                 //line(dx, dy, jdx, jdy)
 
-                triangle(x, y, dx, dy, jdx, jdy)
+                triangle(x, y, dx, dy, jdx, jdy, "white")
                 triangle(x, y, jdx, jdy, jjx, jjy, "black")
             }
 
