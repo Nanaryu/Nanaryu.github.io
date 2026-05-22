@@ -1,668 +1,472 @@
 const canvas = document.createElement("canvas")
-const g_size = 768
-const c_size = 48
+const G_SIZE = 768
+const C_SIZE = 48
 
-canvas.width = g_size
-canvas.height = g_size
+canvas.width = G_SIZE
+canvas.height = G_SIZE
 
-document.querySelector("body").insertBefore(canvas, document.querySelector("body").firstChild)
+document.body.insertBefore(canvas, document.body.firstChild)
 
 const c = canvas.getContext("2d")
 
-const tit = new Image()
-tit.src = "assets/img/item-titanium.png"
-tit.height = 30
-tit.width = 30
+// ─── Asset loading ────────────────────────────────────────────────────────────
 
-const conv = new Image()
-conv.src = "assets/img/conv1.png"
-
-const grass = new Image()
-grass.src = "assets/img/grass.png"
-
-const coll = new Image()
-coll.src = "assets/img/collector.png"
-
-const spawn = new Image()
-spawn.src = "assets/img/spawner.png"
-
-const stats = 
-{
-    titanium: 99999,
-    power: 8543,
+function loadImage(src) {
+    const img = new Image()
+    img.src = src
+    return img
 }
 
-const titanium = document.getElementById("score")
-const power = document.getElementById("power")
-const item_desc =  document.getElementById("item-desc")
+const IMG = {
+    titanium: loadImage("assets/img/item-titanium.png"),
+    conveyor: loadImage("assets/img/conv1.png"),
+    grass:    loadImage("assets/img/grass.png"),
+    collector:loadImage("assets/img/collector.png"),
+    spawner:  loadImage("assets/img/spawner.png"),
+}
 
-const blocks =
-{
-    conveyor: {
-        cost: 10,
-        name: "conveyor",
-        desc: "Basic conveyor used for material transportation",
-        src: conv,
-    },
+// ─── Block definitions ────────────────────────────────────────────────────────
+
+const blocks = {
     freeblock: {
         cost: 0,
         name: "freeblock",
         desc: "Grass block commonly found on the map",
-        src: grass,
+        src: null,          // null = terrain slot (renders IMG.grass)
+        img: IMG.grass,
     },
     spawner: {
         cost: 80,
         name: "spawner",
         desc: "Basic drill used for material mining",
-        src: spawn,
+        src: "spawner",
+        img: IMG.spawner,
+    },
+    conveyor: {
+        cost: 10,
+        name: "conveyor",
+        desc: "Basic conveyor used for material transportation",
+        src: "conveyor",
+        img: IMG.conveyor,
     },
     collector: {
         cost: 10,
         name: "collector",
-        desc: "The core holds all materials that are transported to it",
-        src: coll,
-    }
+        desc: "The core holds all materials transported to it",
+        src: "collector",
+        img: IMG.collector,
+    },
 }
 
-var rotation = 0
+// ─── Stats & UI refs ──────────────────────────────────────────────────────────
 
-function drawImageR(image, x, y, angle, width, height) 
-{
-    let radians = 90 * angle * Math.PI / 180
+const stats = {
+    titanium: 99999,
+    power: 8543,
+}
+
+const ui = {
+    titanium:  document.getElementById("score"),
+    power:     document.getElementById("power"),
+    itemDesc:  document.getElementById("item-desc"),
+    costSpan:  document.getElementById("item_requirements"),
+    selectBox: document.getElementById("select"),
+}
+
+// ─── Draw helpers ─────────────────────────────────────────────────────────────
+
+function drawImageRotated(img, x, y, angle, w, h) {
+    const radians = (Math.PI / 2) * angle
     c.save()
-    c.translate(x + width / 2, y + height / 2)
+    c.translate(x + w / 2, y + h / 2)
     c.rotate(radians)
-    c.drawImage(image, (-width / 2), (-height / 2), width, height)
+    c.drawImage(img, -w / 2, -h / 2, w, h)
     c.restore()
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const tiles = []
-
-class tile 
-{
-    constructor (x, y, angle, tile, terrain)
-    {
-        this.x = x
-        this.y = y
-        this.tile = tile
-        this.terrain = terrain
-        this.angle = angle
-        this.tile_x = Math.floor(this.x/c_size)
-        this.tile_y = Math.floor(this.y/c_size)
-    }
-
-    update()
-    {
-        if(this.tile != null)
-        {
-            drawImageR(this.tile, this.x - cameraX, this.y - cameraY, this.angle, c_size, c_size)
-        }
-        else
-        {
-            drawImageR(this.terrain, this.x - cameraX, this.y - cameraY, this.angle, c_size, c_size)
-        }
-        text(`${this.tile_x},${this.tile_y}`, this.x + c_size/2 - cameraX, this.y + c_size/2 - cameraY, 16, "rgba(233,233,233,0.3)")
-    }
-}
-
-function velocity(x, y, rot)
-{
-    switch(rot)
-    {
-        case 0:
-            return [x, y-c_size]
-        case 1:
-            return [x+c_size, y]
-        case 2:
-            return [x, y+c_size]
-        case 3:
-            return [x-c_size, y]
-    }
-}
-
-const materials = []
-
-class material 
-{
-    constructor (x, y, dx=x, dy=y, moving=false)
-    {
-        this.x = x
-        this.y = y
-        this.moving = moving
-        this.dx = dx
-        this.dy = dy
-        this.tile_x = null
-        this.tile_y = null
-    }
-
-    update() 
-    {   
-        if (!this.moving) 
-        {
-            this.tile_x = Math.floor(this.x/c_size)
-            this.tile_y = Math.floor(this.y/c_size)
-            tiles.forEach(tile1 =>
-            {
-                if ((this.tile_x == tile1.tile_x && this.tile_y == tile1.tile_y) && tile1.tile == conv)
-                {
-                    let dxdy = velocity(this.x, this.y, tile1.angle)
-                    this.dx = dxdy[0]
-                    this.dy = dxdy[1]
-                    this.moving = true
-                }
-                else if ((this.tile_x == tile1.tile_x && this.tile_y == tile1.tile_y) && tile1.tile == coll)
-                {
-                    stats.titanium += 100
-                    delete this.x
-                    delete this.y
-                    delete this.moving
-                    delete this.dx
-                    delete this.dy
-                    delete this.tile_x
-                    delete this.tile_y
-                }
-            })
-            c.drawImage(tit, this.x-tit.width/2-cameraX, this.y-tit.height/2-cameraY, tit.width, tit.height)
-        }
-        else
-        {
-            if (this.x < this.dx)
-            {
-                this.x += 1
-            }
-            else if (this.x > this.dx)
-            {
-                this.x -= 1
-            }
-            if (this.y < this.dy)
-            {
-                this.y += 1
-            }
-            else if (this.y > this.dy)
-            {
-                this.y -= 1
-            }
-
-            c.drawImage(tit, this.x-tit.width/2-cameraX, this.y-tit.height/2-cameraY, tit.width, tit.height)
-
-            if (this.x == this.dx && this.y == this.dy)
-            {
-                this.moving = false
-            }
-        }
-    }
-}
-
-function spawnMaterial()
-{
-    tiles.forEach(tile1 =>
-    {
-        if (tile1.tile == spawn)
-        {
-            tiles.forEach(tile2 =>
-            {
-                if(tile2.tile == conv)
-                {
-                    let x = tile1.x + (c_size/2)
-                    let y = tile1.y + (c_size/2)
-                    let dx = tile2.x + (c_size/2)
-                    let dy = tile2.y + (c_size/2)
-
-                    if(tile1.tile_x + 1 == tile2.tile_x && tile1.tile_y == tile2.tile_y) // right
-                    {
-                        materials.push(new material(x, y, dx, dy, true))
-                    }
-                    if (tile1.tile_x - 1 == tile2.tile_x && tile1.tile_y == tile2.tile_y) // left
-                    {
-                        materials.push(new material(x, y, dx, dy, true))
-                    }
-                    if (tile1.tile_x == tile2.tile_x && tile1.tile_y - 1 == tile2.tile_y) // top
-                    {
-                        materials.push(new material(x, y, dx, dy, true))
-                    }
-                    if (tile1.tile_x == tile2.tile_x && tile1.tile_y + 1 == tile2.tile_y) // bottom
-                    {
-                        materials.push(new material(x, y, dx, dy, true))
-                    }
-                }
-            })
-        }
-    })
-}
-
-function updateMatPos()
-{
-    materials.forEach(mat => 
-    {
-        mat.update()
-    })
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-const player = {
-    x: g_size/2,
-    y: g_size/2,
-    radius: 15,
-    speed: 5,
-}
-
-const keys = {}
-
-window.addEventListener("keydown", e => 
-{
-    keys[e.key] = true
-})
-
-window.addEventListener("keyup", e => 
-{
-    keys[e.key] = false
-})
-
-var cameraX = player.x - g_size / 2
-var cameraY = player.y - g_size / 2
-
-function updatePlayer() {
-    if (keys["w"] || keys["W"]) 
-    {
-        player.y -= player.speed
-    }
-    if (keys["s"] || keys["S"]) 
-    {
-        player.y += player.speed
-    }
-    if (keys["a"] || keys["A"]) 
-    {
-        player.x -= player.speed
-    }
-    if (keys["d"] || keys["D"]) 
-    {
-        player.x += player.speed
-    }
-    cameraX = player.x - g_size / 2
-    cameraY = player.y - g_size / 2
-}
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-var current_block = blocks.freeblock
-
-const select = document.getElementById("select")
-
-function createBlock(src, id, onclick) {
-    const block = document.createElement("img")
-    block.src = src
-    block.id = id
-    block.onclick = onclick
-    block.setAttribute("draggable", false)
-    select.appendChild(block)
-}
-
-createBlock(grass.src, "freeblock", function() {current_block = blocks.freeblock})
-createBlock(spawn.src, "spawner", function() {current_block = blocks.spawner})
-createBlock(conv.src, "conveyor", function() {current_block = blocks.conveyor})
-createBlock(coll.src, "collector", function() {current_block = blocks.collector})
-
-const cost_span = document.getElementById("item_requirements")
-
-/* const audio = new Audio('assets/audio/game3.mp3')
-audio.loop = true
-audio.volume = 0.2
-
-const speaker = document.getElementById("speaker")
-let music_on = false
-speaker.onclick = function ()
-{
-    if(!music_on) 
-    {
-        audio.play()
-        music_on = true
-        speaker.src = "assets/img/speakerON.png"
-    } 
-    else 
-    {
-        audio.pause()
-        music_on = false
-        speaker.src = "assets/img/speaker.png"
-    }
-} */
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-function line(x, y, x1, x2, fstyle="black") 
-{
+function drawLine(x0, y0, x1, y1, style = "black") {
     c.beginPath()
-    c.moveTo(x, y)
-    c.lineTo(x1, x2)
-    c.strokeStyle = fstyle
-    c.stroke()
-    c.closePath()
-}
-
-function text(txt, x, y, fsize=32, fstyle="white")
-{
-    let lastStyle = c.fillStyle
-    c.font = `${fsize}px Arial`
-    c.fillStyle = fstyle
-    c.textAlign = "center"
-    c.fillText(txt, x, y + 7)
-    c.fillStyle = lastStyle
-}
-
-function circle(x, y, radius, style="white")
-{
-    c.beginPath()
-    c.arc(x, y, radius, 0, Math.PI*2, false)
-    c.fillStyle = style
-    c.fill()
-    c.closePath()
-}
-
-function circleE(x, y, radius, style="white")
-{
-    c.beginPath()
-    c.arc(x, y, radius, 0, Math.PI*2, false)
+    c.moveTo(x0, y0)
+    c.lineTo(x1, y1)
     c.strokeStyle = style
     c.stroke()
     c.closePath()
 }
 
-function rect(x, y, w, h, style="white")
-{
+function drawText(txt, x, y, fsize = 32, fstyle = "white") {
+    const prev = c.fillStyle
+    c.font = `${fsize}px Arial`
+    c.fillStyle = fstyle
+    c.textAlign = "center"
+    c.fillText(txt, x, y + 7)
+    c.fillStyle = prev
+}
+
+function drawCircleOutline(x, y, radius, style = "white") {
     c.beginPath()
-    c.fillStyle = style
-    c.fillRect(x, y, w, h)
-    c.fill()
+    c.arc(x, y, radius, 0, Math.PI * 2)
+    c.strokeStyle = style
+    c.stroke()
     c.closePath()
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function drawRect(x, y, w, h, style = "white") {
+    c.fillStyle = style
+    c.fillRect(x, y, w, h)
+}
 
-function drawGrid() {
-    const expanded_size = g_size + 2 * c_size
+// ─── Tiles ────────────────────────────────────────────────────────────────────
 
-    const startX = -cameraX % c_size - c_size
-    const endX = expanded_size - cameraX % c_size + c_size
-    const startY = -cameraY % c_size - c_size
-    const endY = expanded_size - cameraY % c_size + c_size
+const tiles = []
 
-    // horizontal lines
-    for (let i = startY; i <= endY; i += c_size) 
-    {
-        line(startX, i, endX, i, "rgba(233,233,233,0.3)")
+class Tile {
+    constructor(x, y, angle, blockKey) {
+        this.x = x
+        this.y = y
+        this.angle = angle
+        this.blockKey = blockKey        // key into `blocks`, e.g. "freeblock"
+        this.tile_x = Math.floor(x / C_SIZE)
+        this.tile_y = Math.floor(y / C_SIZE)
     }
 
-    // vertical lines
-    for (let j = startX; j <= endX; j += c_size) 
-    {
-        line(j, startY, j, endY, "rgba(233,233,233,0.3)")
+    get block() { return blocks[this.blockKey] }
+
+    draw() {
+        const img = this.block.img
+        drawImageRotated(img, this.x - cameraX, this.y - cameraY, this.angle, C_SIZE, C_SIZE)
+        drawText(
+            `${this.tile_x},${this.tile_y}`,
+            this.x + C_SIZE / 2 - cameraX,
+            this.y + C_SIZE / 2 - cameraY,
+            16,
+            "rgba(233,233,233,0.3)"
+        )
     }
 }
 
-function updateTiles()
-{
-    tiles.forEach(tile1 =>
-    {
-        tile1.update()
+// Build a fast lookup: "tx,ty" → Tile
+const tileMap = new Map()
+
+function tileKey(tx, ty) { return `${tx},${ty}` }
+
+function getTile(tx, ty) { return tileMap.get(tileKey(tx, ty)) ?? null }
+
+function setTileBlock(tile, blockKey) {
+    tile.blockKey = blockKey
+    tile.angle = rotation
+}
+
+function updateTiles() {
+    tiles.forEach(t => t.draw())
+}
+
+// ─── Materials ────────────────────────────────────────────────────────────────
+
+const materials = []
+
+// Returns the world-space velocity vector for a conveyor with the given angle.
+function conveyorDelta(angle) {
+    switch (angle) {
+        case 0: return [0, -C_SIZE]
+        case 1: return [C_SIZE, 0]
+        case 2: return [0,  C_SIZE]
+        case 3: return [-C_SIZE, 0]
+    }
+    return [0, 0]
+}
+
+class Material {
+    constructor(x, y, dx, dy, moving = false) {
+        this.x = x
+        this.y = y
+        this.dx = dx
+        this.dy = dy
+        this.moving = moving
+        this.dead = false
+    }
+
+    get tile_x() { return Math.floor(this.x / C_SIZE) }
+    get tile_y() { return Math.floor(this.y / C_SIZE) }
+
+    update() {
+        if (this.dead) return
+
+        if (!this.moving) {
+            const t = getTile(this.tile_x, this.tile_y)
+            if (t) {
+                if (t.blockKey === "conveyor") {
+                    const [ddx, ddy] = conveyorDelta(t.angle)
+                    this.dx = this.x + ddx
+                    this.dy = this.y + ddy
+                    this.moving = true
+                } else if (t.blockKey === "collector") {
+                    stats.titanium += 100
+                    this.dead = true
+                    return
+                }
+            }
+        } else {
+            // Move one pixel per frame toward destination
+            const SPEED = 2
+            if (this.x < this.dx) this.x = Math.min(this.x + SPEED, this.dx)
+            else if (this.x > this.dx) this.x = Math.max(this.x - SPEED, this.dx)
+
+            if (this.y < this.dy) this.y = Math.min(this.y + SPEED, this.dy)
+            else if (this.y > this.dy) this.y = Math.max(this.y - SPEED, this.dy)
+
+            if (this.x === this.dx && this.y === this.dy) {
+                this.moving = false
+            }
+        }
+
+        const hw = IMG.titanium.width  / 2 || 15
+        const hh = IMG.titanium.height / 2 || 15
+        c.drawImage(IMG.titanium, this.x - hw - cameraX, this.y - hh - cameraY, 30, 30)
+    }
+}
+
+function spawnMaterial() {
+    tiles.forEach(spawnerTile => {
+        if (spawnerTile.blockKey !== "spawner") return
+
+        // Only spawn onto a single adjacent conveyor (prefer right → down → left → up)
+        const neighbors = [
+            getTile(spawnerTile.tile_x + 1, spawnerTile.tile_y),
+            getTile(spawnerTile.tile_x, spawnerTile.tile_y + 1),
+            getTile(spawnerTile.tile_x - 1, spawnerTile.tile_y),
+            getTile(spawnerTile.tile_x, spawnerTile.tile_y - 1),
+        ]
+
+        for (const neighbor of neighbors) {
+            if (neighbor && neighbor.blockKey === "conveyor") {
+                const sx = spawnerTile.x + C_SIZE / 2
+                const sy = spawnerTile.y + C_SIZE / 2
+                const dx = neighbor.x  + C_SIZE / 2
+                const dy = neighbor.y  + C_SIZE / 2
+                materials.push(new Material(sx, sy, dx, dy, true))
+                break   // one material per spawner per tick
+            }
+        }
     })
 }
 
-function selectedBlockOutline()
-{
-    let block = select.children
-    for (let i = 0; i < block.length; i++)
-    {
-        if (block[i].id == current_block.name) {
-            block[i].style.outline =  "2px white solid"
-            block[i].style.boxShadow = "0 0 10px white"
-        }
-        else
-        {
-            block[i].style.outline = "none"
-            block[i].style.boxShadow = "none"
+function updateMaterials() {
+    // Remove dead materials in-place
+    for (let i = materials.length - 1; i >= 0; i--) {
+        if (materials[i].dead) {
+            materials.splice(i, 1)
         }
     }
+    materials.forEach(m => m.update())
 }
 
-function kFormat(value)
-{
-    let svalue = String(value)
-    if (value < 1000)
-    {
-        return svalue
-    }
-    else if (1000 <= value && value < 10000)
-    {
-        return `${svalue[0]}.${svalue[1]}k`
-    }
-    else if (10000 <= value && value < 100000)
-    {
-        return `${svalue[0]}${svalue[1]}.${svalue[2]}k`
-    }
+// ─── Player & camera ──────────────────────────────────────────────────────────
+
+const player = {
+    x: G_SIZE / 2,
+    y: G_SIZE / 2,
+    radius: 15,
+    speed: 5,
 }
 
-function updateStats()
-{
-    if (stats.titanium < 1000)
-    {
-        titanium.innerHTML = "<img src='assets/img/item-titanium.png' class='mat_icon'>" + kFormat(stats.titanium)
-    }
-    else if (1000 <= stats.titanium && stats.titanium < 10000)
-    {
-        titanium.innerHTML = "<img src='assets/img/item-titanium.png' class='mat_icon'>" + kFormat(stats.titanium)
-    }
-    else if (10000 <= stats.titanium && stats.titanium < 100000)
-    {
-        titanium.innerHTML = "<img src='assets/img/item-titanium.png' class='mat_icon'>" + kFormat(stats.titanium)
-    }
-    
-    power.innerHTML = "<img src='assets/img/power.png' class='mat_icon'>" + kFormat(stats.power)
+const keys = {}
+window.addEventListener("keydown", e => { keys[e.key] = true })
+window.addEventListener("keyup",   e => { keys[e.key] = false })
 
-    cost_span.innerHTML = current_block.cost
-    if (current_block.cost <= stats.titanium) {cost_span.style.color = "lightgreen"}
-    else {cost_span.style.color = "rgb(237, 84, 84)"}
+let cameraX = player.x - G_SIZE / 2
+let cameraY = player.y - G_SIZE / 2
 
-    item_desc.innerHTML = current_block.desc
+function updatePlayer() {
+    if (keys["w"] || keys["W"]) player.y -= player.speed
+    if (keys["s"] || keys["S"]) player.y += player.speed
+    if (keys["a"] || keys["A"]) player.x -= player.speed
+    if (keys["d"] || keys["D"]) player.x += player.speed
+
+    cameraX = player.x - G_SIZE / 2
+    cameraY = player.y - G_SIZE / 2
 }
 
-function mouseEvents()
-{
-    let mtile_x = Math.floor((mouse.x+cameraX)/c_size)
-    let mtile_y = Math.floor((mouse.y+cameraY)/c_size)
+// ─── Block selector UI ────────────────────────────────────────────────────────
 
-    var stx
-    var sty
+let currentBlockKey = "freeblock"
+let rotation = 0
 
-    var etx
-    var ety
+function getCurrentBlock() { return blocks[currentBlockKey] }
 
-    if(mouseheld && current_block.cost <= stats.titanium)
-    {
-        let cell = null
-        tiles.forEach(tile1 =>
-        {
-            if (tile1.tile_x == mtile_x && tile1.tile_y == mtile_y)
-            {
-                cell = tile1
+Object.keys(blocks).forEach(key => {
+    const img = document.createElement("img")
+    img.src = blocks[key].img.src
+    img.id = key
+    img.draggable = false
+    img.onclick = () => { currentBlockKey = key }
+    ui.selectBox.appendChild(img)
+})
+
+function updateSelectedOutline() {
+    Array.from(ui.selectBox.children).forEach(el => {
+        const active = el.id === currentBlockKey
+        el.style.outline   = active ? "2px white solid" : "none"
+        el.style.boxShadow = active ? "0 0 10px white"  : "none"
+    })
+}
+
+// ─── Stats display ────────────────────────────────────────────────────────────
+
+function kFormat(value) {
+    if (value < 1000)    return String(value)
+    if (value < 10000)   return `${(value / 1000).toFixed(1)}k`
+    if (value < 1000000) return `${Math.floor(value / 1000)}k`
+    return `${(value / 1000000).toFixed(1)}M`
+}
+
+function updateStats() {
+    ui.titanium.innerHTML = `<img src='assets/img/item-titanium.png' class='mat_icon'>${kFormat(stats.titanium)}`
+    ui.power.innerHTML    = `<img src='assets/img/power.png' class='mat_icon'>${kFormat(stats.power)}`
+
+    const block = getCurrentBlock()
+    ui.costSpan.textContent = block.cost
+    ui.costSpan.style.color = block.cost <= stats.titanium ? "lightgreen" : "rgb(237,84,84)"
+    ui.itemDesc.textContent = block.desc
+}
+
+// ─── Grid ─────────────────────────────────────────────────────────────────────
+
+function drawGrid() {
+    const startX = -cameraX % C_SIZE - C_SIZE
+    const endX   = G_SIZE - cameraX % C_SIZE + C_SIZE
+    const startY = -cameraY % C_SIZE - C_SIZE
+    const endY   = G_SIZE - cameraY % C_SIZE + C_SIZE
+
+    for (let y = startY; y <= endY; y += C_SIZE) drawLine(startX, y, endX, y, "rgba(233,233,233,0.3)")
+    for (let x = startX; x <= endX; x += C_SIZE) drawLine(x, startY, x, endY, "rgba(233,233,233,0.3)")
+}
+
+// ─── Mouse interaction ────────────────────────────────────────────────────────
+
+const mouse = { x: 0, y: 0 }
+let mouseheld   = false
+let rmouseheld  = false
+let justPlaced  = false   // prevent holding LMB from spending cost every frame
+const startcoords = { x: 0, y: 0 }
+
+canvas.addEventListener("mousedown", e => {
+    mouse.x = e.offsetX
+    mouse.y = e.offsetY
+    if (e.button === 0) {
+        mouseheld  = true
+        justPlaced = false
+    } else if (e.button === 2) {
+        rmouseheld = true
+        startcoords.x = e.offsetX
+        startcoords.y = e.offsetY
+    }
+})
+
+canvas.addEventListener("mouseup", e => {
+    if (e.button === 0) { mouseheld  = false; justPlaced = false }
+    if (e.button === 2)   rmouseheld = false
+})
+
+canvas.addEventListener("mousemove", e => {
+    mouse.x = e.offsetX
+    mouse.y = e.offsetY
+    // Allow placing on new cells while dragging
+    justPlaced = false
+})
+
+window.addEventListener("keydown", e => {
+    const key = e.key.toLowerCase()
+    if (key === "r") {
+        rotation = (rotation + 1) % 4
+    } else if (key === "e") {
+        spawnToggle = !spawnToggle
+    }
+})
+
+function mouseEvents() {
+    const mtile_x = Math.floor((mouse.x + cameraX) / C_SIZE)
+    const mtile_y = Math.floor((mouse.y + cameraY) / C_SIZE)
+    const block = getCurrentBlock()
+
+    if (mouseheld && !justPlaced && block.cost <= stats.titanium) {
+        const cell = getTile(mtile_x, mtile_y)
+        if (cell) {
+            // Refund cost of existing block if it's not a freeblock
+            const existing = blocks[cell.blockKey]
+            if (existing && cell.blockKey !== "freeblock") {
+                stats.titanium += existing.cost
             }
-        })
 
-        stats.titanium -= current_block.cost
-            
-        Object.keys(blocks).forEach(key => {
-            if (cell.tile == blocks[key].src)
-            {
-                stats.titanium += blocks[key].cost
+            // Only spend + place if it's a different block
+            if (cell.blockKey !== currentBlockKey) {
+                stats.titanium -= block.cost
+                setTileBlock(cell, currentBlockKey)
             }
-        })
-
-        cell.tile = current_block.src
-        cell.angle = rotation
-    }
-    
-    else if (rmouseheld)
-    {
-        stx = startcoords.x - cameraX
-        sty = startcoords.y - cameraY
-
-        etx = mouse.x - cameraX
-        ety = mouse.y - cameraY
-
-        /* line(stx, sty, stx, ety, "red")
-        line(stx, sty, etx, sty, "red")
-        line(etx, sty, etx, ety, "red")
-        line(stx, ety, etx, ety, "red") */
-       
-        rect(Math.min(stx, etx), Math.min(sty, ety), Math.abs(etx - stx), Math.abs(ety - sty), "rgba(233, 0, 0, 0.3)")
-    }
-
-    else
-    {
+            justPlaced = true
+        }
+    } else if (rmouseheld) {
+        const stx = startcoords.x - cameraX
+        const sty = startcoords.y - cameraY
+        const etx = mouse.x - cameraX
+        const ety = mouse.y - cameraY
+        drawRect(
+            Math.min(stx, etx), Math.min(sty, ety),
+            Math.abs(etx - stx), Math.abs(ety - sty),
+            "rgba(233,0,0,0.3)"
+        )
+    } else {
+        // Ghost preview of selected block
         c.save()
         c.globalAlpha = 0.5
-        drawImageR(current_block.src, mtile_x*c_size-cameraX, mtile_y*c_size-cameraY, rotation, c_size, c_size)
+        drawImageRotated(block.img, mtile_x * C_SIZE - cameraX, mtile_y * C_SIZE - cameraY, rotation, C_SIZE, C_SIZE)
         c.restore()
     }
 }
 
-function init()
-{
-    for (let i = -(c_size*15); i < c_size*16; i += c_size) 
-    {
-        for (let j = -(c_size*15); j < c_size*16; j += c_size) 
-        {
-            tiles.push(new tile(i, j, 0, null, grass))
+// ─── Init ─────────────────────────────────────────────────────────────────────
+
+function init() {
+    // World spans from tile (-15,-15) to (15,15) — 31×31 grid
+    for (let tx = -15; tx <= 15; tx++) {
+        for (let ty = -15; ty <= 15; ty++) {
+            const x = tx * C_SIZE
+            const y = ty * C_SIZE
+            const t = new Tile(x, y, 0, "freeblock")
+            tiles.push(t)
+            tileMap.set(tileKey(tx, ty), t)
         }
     }
 }
 
-function frame() 
-{   
+// ─── Main loop ────────────────────────────────────────────────────────────────
+
+let spawnToggle = false
+
+function frame() {
     updatePlayer()
     updateStats()
-    selectedBlockOutline()
+    updateSelectedOutline()
 
     updateTiles()
-    updateMatPos()
+    updateMaterials()
     mouseEvents()
     drawGrid()
 
-    circleE(g_size / 2, g_size / 2, player.radius, "white")
+    drawCircleOutline(G_SIZE / 2, G_SIZE / 2, player.radius, "white")
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-var mouseheld = false
-var rmouseheld = false
-
-var startcoords = 
-{
-    x: null,
-    y: null,
-}
-
-var mouse =
-{
-    x: null,
-    y: null,
-}
-
-canvas.addEventListener("mousedown", function(e)
-{
-    if (e.button === 0) // left click
-    {
-        mouse.x = e.offsetX
-        mouse.y = e.offsetY
-        mouseheld = true
-    }
-    else if (e.button === 2) // right click
-    {
-        mouse.x = e.offsetX
-        mouse.y = e.offsetY
-        startcoords.x = e.offsetX
-        startcoords.y = e.offsetY
-        rmouseheld = true
-    }
-})
-
-var rmouseup = false
-canvas.addEventListener("mouseup", function(e)
-{
-    if (e.button === 0)
-    {
-        mouseheld = false
-    }
-    else if (e.button === 2)
-    {
-        rmouseup = true
-        rmouseheld = false
-    }
-})
-
-canvas.addEventListener("mousemove", function(e)
-{
-    mouse.x = e.offsetX
-    mouse.y = e.offsetY
-})
-
-var spawnToggle = false
-window.addEventListener("keydown", function (e)
-{
-    if (e.key == "r" || e.key == "R")
-    {
-        if (rotation < 3) 
-        {
-            rotation++
-        } 
-        else 
-        {
-            rotation = 0
-        }
-    }
-    else if (e.key == "e" || e.key == "E")
-    {
-        spawnToggle = spawnToggle ? false : true
-    }
-})
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-const animate = () => {
-  requestAnimationFrame(animate)
-
-  c.clearRect(0, 0, canvas.width, canvas.height)
-
-  frame()
+function animate() {
+    requestAnimationFrame(animate)
+    c.clearRect(0, 0, canvas.width, canvas.height)
+    frame()
 }
 
 init()
 animate()
+
 setInterval(() => {
-    if (stats.power > 0 && spawnToggle)
-    {
+    if (stats.power > 0 && spawnToggle) {
         spawnMaterial()
     }
     stats.power += 1
 }, 500)
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

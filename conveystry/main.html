@@ -1,15 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>LJMNdustry</title>
     <link rel="stylesheet" href="style.css">
-    <meta charset="utf-8">
   </head>
   <body oncontextmenu="return false">
+
     <div id="all">
-      <!-- canvas here -->
+      <!-- canvas injected here by game.js -->
+
       <div id="ui">
-        
+
         <br>
 
         <div id="stats" class="ui">
@@ -18,28 +21,19 @@
 
             <div class="mat_count">
               <span id="score" class="ui_text">
-                <img src="assets/img/item-titanium.png" class="mat_icon">
-                  {}
+                <img src="assets/img/item-titanium.png" class="mat_icon" alt="Titanium">
               </span>
             </div>
 
             <div class="mat_count">
               <span id="power" class="ui_text">
-                <img src="assets/img/power.png" class="mat_icon">
-                {}
-              </span> 
-            </div>
-
-            <div class="mat_count">
-              <span id="grp" class="ui_text">
-                <img src="assets/img/item-graphite.png" class="mat_icon">
-                200.2k
+                <img src="assets/img/power.png" class="mat_icon" alt="Power">
               </span>
             </div>
 
           </div>
           &nbsp;
-        </div>  
+        </div>
 
         <br>
 
@@ -50,31 +44,27 @@
         <div id="item_info" class="ui">
           <div>
             <span class="ui_text" style="font-size: 20px;">Requires: </span>
-            <span id="item_requirements" class="ui_text">{}</span>
-            <img src="assets/img/item-titanium.png" style="top: 3px; position: relative; width: 20px; height: 20px;">
+            <span id="item_requirements" class="ui_text">0</span>
+            <img src="assets/img/item-titanium.png" alt="Titanium"
+                 style="top: 3px; position: relative; width: 20px; height: 20px;">
           </div>
           <div>
-            <span id="item-desc" class="ui_text" style="font-size: 16px;">item-desc</span>
+            <span id="item-desc" class="ui_text" style="font-size: 16px;"></span>
           </div>
         </div>
-
-        <!-- <br>
-
-        <div id="music" class="ui">
-          <img id="speaker" src="assets/img/speaker.png" style="width: 40px; height: 40px; position: relative; top: 6px;">
-        </div> -->
 
         <br>
 
         <div id="binds" class="ui">
-          E - Toggle spawn <br>
-          R - Rotate conveyor
+          E &mdash; Toggle spawn<br>
+          R &mdash; Rotate conveyor
         </div>
 
         <br>
 
       </div>
     </div>
-    <script type="text/javascript" src="game.js"></script>
+
+    <script src="game.js"></script>
   </body>
 </html>
