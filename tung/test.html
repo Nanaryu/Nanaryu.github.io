@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>ID Stanowisk — makieta ekranów</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B2430;
+    --paper:#F3F4EF;
+    --steel:#E4E6E0;
+    --steel-dark:#C9CDC3;
+    --line:rgba(27,36,48,0.10);
+    --line-soft:rgba(27,36,48,0.06);
+    --orange:#FF6A2B;
+    --orange-dim:#FFE3D2;
+    --green:#2E9E6D;
+    --green-dim:#DCF0E6;
+    --red:#D64545;
+    --red-dim:#FBE1E1;
+    --sans:'IBM Plex Sans', -apple-system, sans-serif;
+    --mono:'IBM Plex Mono', ui-monospace, monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    color:var(--ink);
+    background-color:var(--paper);
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size:40px 40px;
+    padding-bottom:120px;
+  }
+
+  /* ---------- title block ---------- */
+  .titleblock{
+    max-width:900px;
+    margin:56px auto 8px;
+    border:1.5px solid var(--ink);
+    background:var(--paper);
+    padding:22px 28px;
+  }
+  .titleblock h1{
+    font-size:20px;
+    letter-spacing:0.06em;
+    margin:0 0 6px;
+    text-transform:uppercase;
+  }
+  .titleblock p{
+    margin:0 0 16px;
+    font-size:14px;
+    color:rgba(27,36,48,0.7);
+    max-width:560px;
+    line-height:1.5;
+  }
+  .titleblock .meta{
+    display:flex;
+    border-top:1px solid var(--line);
+    padding-top:12px;
+  }
+  .titleblock .meta div{
+    flex:1;
+    padding:0 18px;
+    font-family:var(--mono);
+    font-size:12px;
+    border-left:1px solid var(--line);
+  }
+  .titleblock .meta div:first-child{border-left:none;padding-left:0;}
+  .titleblock .meta span{
+    display:block;
+    color:rgba(27,36,48,0.55);
+    margin-bottom:3px;
+  }
+  .titleblock .meta b{font-weight:600;}
+
+  /* ---------- flow / frames ---------- */
+  .flow{display:flex;flex-direction:column;align-items:center;}
+  .frame-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding-top:52px;
+  }
+  .frame-index{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:14px;
+    font-size:13px;
+  }
+  .frame-index .num{
+    font-family:var(--mono);
+    font-weight:600;
+    background:var(--ink);
+    color:var(--paper);
+    padding:2px 9px;
+  }
+  .frame-index .label{font-family:var(--sans);font-weight:500;}
+
+  .tablet{
+    width:1200px;
+    height:720px;
+    background:var(--paper);
+    border:2px solid var(--ink);
+    box-shadow:10px 10px 0 rgba(27,36,48,0.08);
+    display:flex;
+    overflow:hidden;
+  }
+
+  .connector{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:10px 0;
+  }
+  .connector .line{width:2px;height:34px;background:var(--ink);}
+  .connector svg{margin-top:-2px;}
+
+  /* ---------- sidebar ---------- */
+  .sidebar{
+    width:224px;
+    flex-shrink:0;
+    background:var(--ink);
+    color:var(--paper);
+    padding:26px 18px;
+    display:flex;
+    flex-direction:column;
+  }
+  .logo{display:flex;align-items:center;gap:10px;margin-bottom:34px;}
+  .logo svg{color:var(--orange);}
+  .logo .wordmark{line-height:1.15;}
+  .logo .wordmark b{display:block;font-size:16px;font-weight:700;letter-spacing:0.02em;}
+  .logo .wordmark small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:0.14em;color:rgba(243,244,239,0.55);}
+
+  .navitem{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 12px;
+    border-radius:8px;
+    font-size:14px;
+    font-weight:500;
+    color:rgba(243,244,239,0.8);
+    margin-bottom:4px;
+  }
+  .navitem svg{flex-shrink:0;opacity:0.85;}
+  .navitem.active{background:var(--orange);color:var(--ink);font-weight:600;}
+  .navitem.active svg{opacity:1;}
+
+  .sidebar-foot{
+    margin-top:auto;
+    padding-top:16px;
+    border-top:1px solid rgba(243,244,239,0.14);
+    font-family:var(--mono);
+    font-size:11px;
+    color:rgba(243,244,239,0.45);
+    line-height:1.5;
+  }
+
+  /* ---------- content shell ---------- */
+  .content{
+    flex:1;
+    padding:30px 34px;
+    display:flex;
+    flex-direction:column;
+    min-width:0;
+  }
+  .content-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:22px;
+  }
+  .content-header h2{font-size:24px;margin:0 0 4px;font-weight:700;}
+  .content-header .sub{font-size:14px;color:rgba(27,36,48,0.6);}
+  .datebox{
+    text-align:right;
+    font-family:var(--mono);
+    font-size:12px;
+    color:rgba(27,36,48,0.6);
+    line-height:1.6;
+  }
+  .datebox b{display:block;color:var(--ink);font-size:13px;font-weight:600;font-family:var(--sans);}
+
+  .icon{width:20px;height:20px;}
+
+  /* buttons */
+  .btn{
+    font-family:var(--sans);
+    font-weight:600;
+    font-size:14px;
+    padding:13px 20px;
+    border-radius:10px;
+    border:1.5px solid var(--ink);
+    background:var(--paper);
+    color:var(--ink);
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .btn-primary{background:var(--orange);border-color:var(--orange);color:var(--ink);}
+  .btn-ghost{background:transparent;border-color:var(--steel-dark);}
+
+  /* ---------- FRAME 1: home tiles ---------- */
+  .tiles{display:flex;gap:18px;margin-bottom:22px;}
+  .tile{
+    flex:1;
+    border:1.5px solid var(--ink);
+    padding:22px 20px;
+    display:flex;
+    flex-direction:column;
+    gap:34px;
+    min-height:150px;
+  }
+  .tile.primary{background:var(--orange);}
+  .tile .ticon{width:26px;height:26px;}
+  .tile h3{margin:0;font-size:16px;font-weight:700;}
+  .tile p{margin:2px 0 0;font-size:12.5px;color:rgba(27,36,48,0.65);}
+  .tile.primary p{color:rgba(27,36,48,0.7);}
+
+  .status-strip{
+    border:1px solid var(--line);
+    background:var(--steel);
+    padding:16px 20px;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-bottom:22px;
+  }
+  .status-strip .num{font-family:var(--mono);font-weight:700;font-size:15px;white-space:nowrap;}
+  .progress{flex:1;height:8px;background:var(--steel-dark);}
+  .progress-fill{height:100%;width:75%;background:var(--orange);}
+
+  .mini-log h4{font-size:13px;text-transform:uppercase;letter-spacing:0.06em;color:rgba(27,36,48,0.55);margin:0 0 10px;font-weight:600;}
+  .mini-log-row{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:9px 0;
+    border-top:1px solid var(--line);
+    font-size:13px;
+  }
+  .mini-log-row .t{font-family:var(--mono);color:rgba(27,36,48,0.55);width:56px;}
+  .mini-log-row .st{font-family:var(--mono);font-weight:600;width:80px;}
+  .mini-log-row .who{flex:1;}
+  .dot{width:8px;height:8px;border-radius:50%;display:inline-block;}
+  .dot.green{background:var(--green);}
+  .dot.grey{background:var(--steel-dark);}
+  .dot.red{background:var(--red);}
+
+  /* ---------- FRAME 2: scan ---------- */
+  .scan-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;}
+  .scan-hint{font-size:15px;font-weight:500;text-align:center;}
+  .viewfinder{
+    width:360px;
+    height:360px;
+    background:#10161F;
+    position:relative;
+  }
+  .vf-corner{position:absolute;width:34px;height:34px;border:3px solid var(--orange);}
+  .vf-corner.tl{top:16px;left:16px;border-right:none;border-bottom:none;}
+  .vf-corner.tr{top:16px;right:16px;border-left:none;border-bottom:none;}
+  .vf-corner.bl{bottom:16px;left:16px;border-right:none;border-top:none;}
+  .vf-corner.br{bottom:16px;right:16px;border-left:none;border-top:none;}
+  .vf-ring{position:absolute;top:50%;left:50%;width:120px;height:120px;margin:-60px 0 0 -60px;border:1.5px solid rgba(255,106,43,0.45);border-radius:50%;}
+  .scan-note{font-size:12.5px;color:rgba(27,36,48,0.55);text-align:center;max-width:300px;}
+  .manual-link{font-size:13px;font-family:var(--mono);text-decoration:underline;color:rgba(27,36,48,0.6);}
+
+  /* ---------- confirm banner (frames 3 & 4) ---------- */
+  .confirm-banner{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:var(--steel);
+    border:1px solid var(--line);
+    padding:14px 18px;
+    margin-bottom:20px;
+    font-size:13.5px;
+  }
+  .confirm-banner .tag{
+    font-family:var(--mono);
+    font-weight:700;
+    background:var(--ink);
+    color:var(--paper);
+    padding:4px 10px;
+  }
+  .confirm-banner .divider-v{width:1px;height:18px;background:var(--steel-dark);}
+  .confirm-banner .rescan{margin-left:auto;font-family:var(--mono);text-decoration:underline;color:rgba(27,36,48,0.6);}
+
+  .search{
+    display:flex;align-items:center;gap:10px;
+    border:1.5px solid var(--steel-dark);
+    padding:11px 16px;
+    margin-bottom:18px;
+    font-size:14px;
+    color:rgba(27,36,48,0.55);
+  }
+
+  /* ---------- FRAME 3: class grid ---------- */
+  .class-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .class-chip{
+    border:1.5px solid var(--steel-dark);
+    padding:20px 0;
+    text-align:center;
+    font-family:var(--mono);
+    font-weight:700;
+    font-size:20px;
+  }
+  .class-chip .n{display:block;font-family:var(--sans);font-weight:400;font-size:11px;margin-top:4px;color:rgba(27,36,48,0.5);}
+  .class-chip.selected{border-color:var(--orange);background:var(--orange-dim);}
+
+  /* ---------- FRAME 4: student list ---------- */
+  .student-list{flex:1;overflow:hidden;}
+  .student-row{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:12px 14px;
+    border-bottom:1px solid var(--line);
+  }
+  .avatar{
+    width:34px;height:34px;border-radius:50%;
+    background:var(--steel-dark);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-weight:700;font-size:12px;
+    flex-shrink:0;
+  }
+  .student-row .name{flex:1;font-size:14.5px;font-weight:500;}
+  .student-row .cls{font-family:var(--mono);font-size:12px;color:rgba(27,36,48,0.5);}
+  .student-row.selected{border-left:3px solid var(--orange);background:var(--orange-dim);padding-left:11px;}
+  .student-row.selected .avatar{background:var(--orange);color:var(--ink);}
+  .checkmark{width:20px;height:20px;color:var(--orange);}
+  .confirm-row{margin-top:16px;display:flex;justify-content:flex-end;}
+
+  /* ---------- FRAME 5: manage stations ---------- */
+  .filter-row{display:flex;gap:10px;margin-bottom:18px;}
+  .filter-chip{
+    padding:9px 16px;
+    border:1.5px solid var(--steel-dark);
+    font-size:13px;
+    font-weight:500;
+  }
+  .filter-chip.active{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+  .station-grid{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:10px;
+    flex:1;
+  }
+  .station-card{
+    border:1.5px solid var(--line);
+    padding:12px 10px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+  }
+  .station-card .top{display:flex;justify-content:space-between;align-items:center;}
+  .station-card .no{font-family:var(--mono);font-weight:700;font-size:15px;}
+  .station-card .who{font-size:12px;}
+  .station-card.assigned{background:var(--green-dim);border-color:var(--green);}
+  .station-card.free{background:var(--steel);}
+  .station-card.flagged{background:var(--red-dim);border-color:var(--red);}
+  .station-card .who.muted{color:rgba(27,36,48,0.45);font-style:italic;}
+
+  /* ---------- FRAME 6: history table ---------- */
+  .history-filters{display:flex;gap:10px;margin-bottom:16px;}
+  .hfilter{
+    border:1.5px solid var(--steel-dark);
+    padding:9px 14px;
+    font-size:12.5px;
+    display:flex;align-items:center;gap:8px;
+    color:rgba(27,36,48,0.65);
+  }
+  table.history{width:100%;border-collapse:collapse;font-size:13px;}
+  table.history th{
+    text-align:left;
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:rgba(27,36,48,0.5);
+    padding:0 10px 10px;
+    border-bottom:1.5px solid var(--ink);
+    font-weight:600;
+  }
+  table.history td{
+    padding:11px 10px;
+    border-bottom:1px solid var(--line);
+    font-family:var(--mono);
+  }
+  table.history td.name{font-family:var(--sans);}
+  .flag-pill{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--red-dim);color:var(--red);
+    padding:3px 9px;font-family:var(--sans);font-weight:600;font-size:11.5px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="titleblock">
+    <h1>System identyfikacji stanowisk komputerowych</h1>
+    <p>Aplikacja dla nauczycieli do identyfikacji uczniów przy stanowiskach komputerowych w salach informatycznych — skanowanie kodów QR, zarządzanie przypisaniami i historia skanów.</p>
+    <div class="meta">
+      <div><span>Urządzenie</span><b>Lenovo Tab M11</b></div>
+      <div><span>Orientacja</span><b>Pozioma</b></div>
+      <div><span>Liczba ekranów</span><b>6</b></div>
+      <div><span>Wersja</span><b>0.1 — makieta</b></div>
+    </div>
+  </div>
+
+  <div class="flow">
+
+    <!-- ===================== FRAME 1 — HOME ===================== -->
+    <div class="frame-wrap">
+      <div class="frame-index"><span class="num">01</span><span class="label">Menu główne</span></div>
+      <div class="tablet">
+        <div class="sidebar">
+          <div class="logo">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            <div class="wordmark"><b>ID Stanowisk</b><small>SALA INFORMATYCZNA</small></div>
+          </div>
+          <div class="navitem active">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11L12 4l9 7"/><path d="M5 10v9h14v-9"/><path d="M9 19v-6h6v6"/></svg>
+            Menu główne
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h5M4 4v5M20 4h-5M20 4v5M4 20h5M4 20v-5M20 20h-5M20 20v-5"/><rect x="10" y="10" width="4" height="4"/></svg>
+            Skanuj kod QR
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M14.5 14.2c2.8.3 5 2.6 5.5 5.8"/></svg>
+            Klasy i uczniowie
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+            Historia skanów
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+            Ustawienia
+          </div>
+          <div class="sidebar-foot">Zalogowano jako<br>Anna Nowak · Nauczyciel</div>
+        </div>
+        <div class="content">
+          <div class="content-header">
+            <div>
+              <h2>Dzień dobry, Pani Nowak</h2>
+              <div class="sub">Sala komputerowa 12</div>
+            </div>
+            <div class="datebox"><b>Środa</b>14 września 2026<br>10:24</div>
+          </div>
+
+          <div class="tiles">
+            <div class="tile primary">
+              <svg class="ticon" viewBox="0 0 24 24" fill="none" stroke="#1B2430" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h5M4 4v5M20 4h-5M20 4v5M4 20h5M4 20v-5M20 20h-5M20 20v-5"/><rect x="10" y="10" width="4" height="4"/></svg>
+              <div><h3>Skanuj kod QR</h3><p>Rozpoznaj stanowisko i przypisz ucznia</p></div>
+            </div>
+            <div class="tile">
+              <svg class="ticon" viewBox="0 0 24 24" fill="none" stroke="#1B2430" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="1"/><path d="M3 9h18"/><path d="M8 4v5"/></svg>
+              <div><h3>Zarządzaj stanowiskami</h3><p>Podgląd i edycja przypisań w sali</p></div>
+            </div>
+            <div class="tile">
+              <svg class="ticon" viewBox="0 0 24 24" fill="none" stroke="#1B2430" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+              <div><h3>Historia skanów</h3><p>Wszystkie skany z tej i poprzednich sal</p></div>
+            </div>
+          </div>
+
+          <div class="status-strip">
+            <span class="num">18 / 24</span>
+            <div class="progress"><div class="progress-fill"></div></div>
+            <span style="font-size:13px;color:rgba(27,36,48,0.6);">stanowisk przypisanych dziś</span>
+          </div>
+
+          <div class="mini-log">
+            <h4>Ostatnie skany</h4>
+            <div class="mini-log-row"><span class="t">10:18</span><span class="dot green"></span><span class="st">STAN. 07</span><span class="who">Ala Kowalska — 2A</span></div>
+            <div class="mini-log-row"><span class="t">10:11</span><span class="dot green"></span><span class="st">STAN. 03</span><span class="who">Bartek Nowicki — 2A</span></div>
+            <div class="mini-log-row"><span class="t">09:58</span><span class="dot red"></span><span class="st">STAN. 14</span><span class="who">Zgłoszono uszkodzenie</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector"><span class="line"></span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1B2430" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 13l6 6 6-6"/></svg></div>
+
+    <!-- ===================== FRAME 2 — SCAN ===================== -->
+    <div class="frame-wrap">
+      <div class="frame-index"><span class="num">02</span><span class="label">Skanuj kod QR</span></div>
+      <div class="tablet">
+        <div class="sidebar">
+          <div class="logo">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            <div class="wordmark"><b>ID Stanowisk</b><small>SALA INFORMATYCZNA</small></div>
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11L12 4l9 7"/><path d="M5 10v9h14v-9"/><path d="M9 19v-6h6v6"/></svg>
+            Menu główne
+          </div>
+          <div class="navitem active">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h5M4 4v5M20 4h-5M20 4v5M4 20h5M4 20v-5M20 20h-5M20 20v-5"/><rect x="10" y="10" width="4" height="4"/></svg>
+            Skanuj kod QR
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M14.5 14.2c2.8.3 5 2.6 5.5 5.8"/></svg>
+            Klasy i uczniowie
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+            Historia skanów
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+            Ustawienia
+          </div>
+          <div class="sidebar-foot">Zalogowano jako<br>Anna Nowak · Nauczyciel</div>
+        </div>
+        <div class="content">
+          <div class="scan-wrap">
+            <div class="scan-hint">Zeskanuj kod QR na tablecie</div>
+            <div class="viewfinder">
+              <div class="vf-corner tl"></div><div class="vf-corner tr"></div>
+              <div class="vf-corner bl"></div><div class="vf-corner br"></div>
+              <div class="vf-ring"></div>
+            </div>
+            <div class="scan-note">Stanowisko zostanie rozpoznane automatycznie na podstawie kodu przypisanego do tabletu</div>
+            <div class="manual-link">Wpisz numer stanowiska ręcznie</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector"><span class="line"></span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1B2430" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 13l6 6 6-6"/></svg></div>
+
+    <!-- ===================== FRAME 3 — SELECT CLASS ===================== -->
+    <div class="frame-wrap">
+      <div class="frame-index"><span class="num">03</span><span class="label">Wybierz klasę</span></div>
+      <div class="tablet">
+        <div class="sidebar">
+          <div class="logo">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            <div class="wordmark"><b>ID Stanowisk</b><small>SALA INFORMATYCZNA</small></div>
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11L12 4l9 7"/><path d="M5 10v9h14v-9"/><path d="M9 19v-6h6v6"/></svg>
+            Menu główne
+          </div>
+          <div class="navitem active">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h5M4 4v5M20 4h-5M20 4v5M4 20h5M4 20v-5M20 20h-5M20 20v-5"/><rect x="10" y="10" width="4" height="4"/></svg>
+            Skanuj kod QR
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M14.5 14.2c2.8.3 5 2.6 5.5 5.8"/></svg>
+            Klasy i uczniowie
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+            Historia skanów
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+            Ustawienia
+          </div>
+          <div class="sidebar-foot">Zalogowano jako<br>Anna Nowak · Nauczyciel</div>
+        </div>
+        <div class="content">
+          <div class="confirm-banner">
+            <span class="tag">STANOWISKO 07</span>
+            <span class="divider-v"></span>
+            <span>Kod odczytany poprawnie</span>
+            <span class="rescan">Skanuj ponownie</span>
+          </div>
+          <div class="content-header" style="margin-bottom:14px;">
+            <div><h2 style="font-size:20px;">Wybierz klasę</h2></div>
+          </div>
+          <div class="search">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            Szukaj klasy
+          </div>
+          <div class="class-grid">
+            <div class="class-chip">1A<span class="n">22 uczniów</span></div>
+            <div class="class-chip">1B<span class="n">24 uczniów</span></div>
+            <div class="class-chip">1C<span class="n">21 uczniów</span></div>
+            <div class="class-chip selected">2A<span class="n">23 uczniów</span></div>
+            <div class="class-chip">2B<span class="n">25 uczniów</span></div>
+            <div class="class-chip">2C<span class="n">20 uczniów</span></div>
+            <div class="class-chip">3A<span class="n">19 uczniów</span></div>
+            <div class="class-chip">3B TI<span class="n">18 uczniów</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector"><span class="line"></span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1B2430" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 13l6 6 6-6"/></svg></div>
+
+    <!-- ===================== FRAME 4 — SELECT STUDENT ===================== -->
+    <div class="frame-wrap">
+      <div class="frame-index"><span class="num">04</span><span class="label">Wybierz ucznia</span></div>
+      <div class="tablet">
+        <div class="sidebar">
+          <div class="logo">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            <div class="wordmark"><b>ID Stanowisk</b><small>SALA INFORMATYCZNA</small></div>
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11L12 4l9 7"/><path d="M5 10v9h14v-9"/><path d="M9 19v-6h6v6"/></svg>
+            Menu główne
+          </div>
+          <div class="navitem active">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h5M4 4v5M20 4h-5M20 4v5M4 20h5M4 20v-5M20 20h-5M20 20v-5"/><rect x="10" y="10" width="4" height="4"/></svg>
+            Skanuj kod QR
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M14.5 14.2c2.8.3 5 2.6 5.5 5.8"/></svg>
+            Klasy i uczniowie
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+            Historia skanów
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+            Ustawienia
+          </div>
+          <div class="sidebar-foot">Zalogowano jako<br>Anna Nowak · Nauczyciel</div>
+        </div>
+        <div class="content">
+          <div class="confirm-banner">
+            <span class="tag">STANOWISKO 07</span>
+            <span class="divider-v"></span>
+            <span>Klasa 2A</span>
+            <span class="rescan">Zmień klasę</span>
+          </div>
+          <div class="search">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            Szukaj ucznia w klasie 2A
+          </div>
+          <div class="student-list">
+            <div class="student-row"><div class="avatar">AK</div><div class="name">Ala Kowalska</div><div class="cls">2A</div></div>
+            <div class="student-row selected"><div class="avatar">BN</div><div class="name">Bartek Nowicki</div><div class="cls">2A</div>
+              <svg class="checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5 11-11"/></svg>
+            </div>
+            <div class="student-row"><div class="avatar">CZ</div><div class="name">Celina Zawadzka</div><div class="cls">2A</div></div>
+            <div class="student-row"><div class="avatar">DL</div><div class="name">Dawid Lis</div><div class="cls">2A</div></div>
+            <div class="student-row"><div class="avatar">EM</div><div class="name">Ewa Michalska</div><div class="cls">2A</div></div>
+            <div class="student-row"><div class="avatar">FG</div><div class="name">Filip Górski</div><div class="cls">2A</div></div>
+          </div>
+          <div class="confirm-row">
+            <div class="btn btn-primary">Przypisz ucznia do stanowiska</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector"><span class="line"></span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1B2430" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 13l6 6 6-6"/></svg></div>
+
+    <!-- ===================== FRAME 5 — MANAGE STATIONS ===================== -->
+    <div class="frame-wrap">
+      <div class="frame-index"><span class="num">05</span><span class="label">Zarządzaj stanowiskami</span></div>
+      <div class="tablet">
+        <div class="sidebar">
+          <div class="logo">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            <div class="wordmark"><b>ID Stanowisk</b><small>SALA INFORMATYCZNA</small></div>
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11L12 4l9 7"/><path d="M5 10v9h14v-9"/><path d="M9 19v-6h6v6"/></svg>
+            Menu główne
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h5M4 4v5M20 4h-5M20 4v5M4 20h5M4 20v-5M20 20h-5M20 20v-5"/><rect x="10" y="10" width="4" height="4"/></svg>
+            Skanuj kod QR
+          </div>
+          <div class="navitem active">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M14.5 14.2c2.8.3 5 2.6 5.5 5.8"/></svg>
+            Klasy i uczniowie
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+            Historia skanów
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+            Ustawienia
+          </div>
+          <div class="sidebar-foot">Zalogowano jako<br>Anna Nowak · Nauczyciel</div>
+        </div>
+        <div class="content">
+          <div class="content-header">
+            <div><h2 style="font-size:20px;">Stanowiska — Sala 12</h2><div class="sub">24 stanowiska</div></div>
+          </div>
+          <div class="filter-row">
+            <div class="filter-chip active">Wszystkie</div>
+            <div class="filter-chip">Przypisane</div>
+            <div class="filter-chip">Wolne</div>
+            <div class="filter-chip">Zgłoszone</div>
+          </div>
+          <div class="station-grid">
+            <div class="station-card assigned"><div class="top"><span class="no">01</span><span class="dot green"></span></div><span class="who">Ala Kowalska</span></div>
+            <div class="station-card assigned"><div class="top"><span class="no">02</span><span class="dot green"></span></div><span class="who">Bartek Nowicki</span></div>
+            <div class="station-card free"><div class="top"><span class="no">03</span><span class="dot grey"></span></div><span class="who muted">Wolne</span></div>
+            <div class="station-card assigned"><div class="top"><span class="no">04</span><span class="dot green"></span></div><span class="who">Celina Zawadzka</span></div>
+            <div class="station-card assigned"><div class="top"><span class="no">05</span><span class="dot green"></span></div><span class="who">Dawid Lis</span></div>
+            <div class="station-card free"><div class="top"><span class="no">06</span><span class="dot grey"></span></div><span class="who muted">Wolne</span></div>
+            <div class="station-card assigned"><div class="top"><span class="no">07</span><span class="dot green"></span></div><span class="who">Ewa Michalska</span></div>
+            <div class="station-card assigned"><div class="top"><span class="no">08</span><span class="dot green"></span></div><span class="who">Filip Górski</span></div>
+            <div class="station-card free"><div class="top"><span class="no">09</span><span class="dot grey"></span></div><span class="who muted">Wolne</span></div>
+            <div class="station-card assigned"><div class="top"><span class="no">10</span><span class="dot green"></span></div><span class="who">Gosia Wiśniewska</span></div>
+            <div class="station-card assigned"><div class="top"><span class="no">11</span><span class="dot green"></span></div><span class="who">Hubert Zieliński</span></div>
+            <div class="station-card assigned"><div class="top"><span class="no">12</span><span class="dot green"></span></div><span class="who">Iga Krawczyk</span></div>
+            <div class="station-card assigned"><div class="top"><span class="no">13</span><span class="dot green"></span></div><span class="who">Jan Kaczmarek</span></div>
+            <div class="station-card flagged"><div class="top"><span class="no">14</span><span class="dot red"></span></div><span class="who">Zgłoszenie</span></div>
+            <div class="station-card free"><div class="top"><span class="no">15</span><span class="dot grey"></span></div><span class="who muted">Wolne</span></div>
+            <div class="station-card assigned"><div class="top"><span class="no">16</span><span class="dot green"></span></div><span class="who">Kamil Sikora</span></div>
+            <div class="station-card assigned"><div class="top"><span class="no">17</span><span class="dot green"></span></div><span class="who">Lena Wójcik</span></div>
+            <div class="station-card free"><div class="top"><span class="no">18</span><span class="dot grey"></span></div><span class="who muted">Wolne</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector"><span class="line"></span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1B2430" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 13l6 6 6-6"/></svg></div>
+
+    <!-- ===================== FRAME 6 — HISTORY ===================== -->
+    <div class="frame-wrap">
+      <div class="frame-index"><span class="num">06</span><span class="label">Historia skanów</span></div>
+      <div class="tablet">
+        <div class="sidebar">
+          <div class="logo">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            <div class="wordmark"><b>ID Stanowisk</b><small>SALA INFORMATYCZNA</small></div>
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11L12 4l9 7"/><path d="M5 10v9h14v-9"/><path d="M9 19v-6h6v6"/></svg>
+            Menu główne
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h5M4 4v5M20 4h-5M20 4v5M4 20h5M4 20v-5M20 20h-5M20 20v-5"/><rect x="10" y="10" width="4" height="4"/></svg>
+            Skanuj kod QR
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M14.5 14.2c2.8.3 5 2.6 5.5 5.8"/></svg>
+            Klasy i uczniowie
+          </div>
+          <div class="navitem active">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+            Historia skanów
+          </div>
+          <div class="navitem">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+            Ustawienia
+          </div>
+          <div class="sidebar-foot">Zalogowano jako<br>Anna Nowak · Nauczyciel</div>
+        </div>
+        <div class="content">
+          <div class="content-header">
+            <div><h2 style="font-size:20px;">Historia skanów</h2><div class="sub">Sala 12 — wszystkie zapisy</div></div>
+          </div>
+          <div class="history-filters">
+            <div class="hfilter">
+              <svg class="icon" style="width:15px;height:15px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="16" rx="1"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+              14.09.2026
+            </div>
+            <div class="hfilter">Klasa: wszystkie</div>
+            <div class="hfilter">Stanowisko: wszystkie</div>
+            <div class="search" style="flex:1;margin:0;">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+              Szukaj w historii
+            </div>
+          </div>
+          <table class="history">
+            <thead><tr><th>Data</th><th>Godzina</th><th>Stan.</th><th>Uczeń</th><th>Klasa</th><th>Nauczyciel</th><th></th></tr></thead>
+            <tbody>
+              <tr><td>14.09</td><td>10:18</td><td>07</td><td class="name">Ala Kowalska</td><td>2A</td><td class="name">A. Nowak</td><td></td></tr>
+              <tr><td>14.09</td><td>10:11</td><td>03</td><td class="name">Bartek Nowicki</td><td>2A</td><td class="name">A. Nowak</td><td></td></tr>
+              <tr><td>14.09</td><td>09:58</td><td>14</td><td class="name">Jan Kaczmarek</td><td>2A</td><td class="name">A. Nowak</td><td><span class="flag-pill">Uszkodzenie</span></td></tr>
+              <tr><td>13.09</td><td>14:32</td><td>11</td><td class="name">Hubert Zieliński</td><td>1B</td><td class="name">P. Kowal</td><td></td></tr>
+              <tr><td>13.09</td><td>14:20</td><td>05</td><td class="name">Dawid Lis</td><td>1B</td><td class="name">P. Kowal</td><td></td></tr>
+              <tr><td>12.09</td><td>11:05</td><td>09</td><td class="name">Gosia Wiśniewska</td><td>3A</td><td class="name">A. Nowak</td><td></td></tr>
+              <tr><td>12.09</td><td>10:47</td><td>02</td><td class="name">Iga Krawczyk</td><td>3A</td><td class="name">A. Nowak</td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
